@@ -18,7 +18,7 @@ class AprazamentosRouter extends GenericRouter<Aprazamento> {
     protected prepareAll(query: mongoose.DocumentQuery<Aprazamento[],Aprazamento>): mongoose.DocumentQuery<Aprazamento[],Aprazamento>{
       return query.populate('paciente')
                   .populate('enfermeira')
-                  .populate('medicamento')                                        
+                  .populate('medicamento')                                      
     }
 
     applyRoutes(app: restify.Server){
