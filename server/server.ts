@@ -1,0 +1,54 @@
+import * as restify from 'restify'
+import * as mongoose from 'mongoose'
+
+import { environment } from '../common/environment'
+import { Router } from '../router/router'
+import { mergePatchBodyParser } from './merge-patch.parser'
+import { handleError } from './error.handler'
+
+export class Server {
+
+  app: restify.Server
+
+  initServer(routers: Router[] = []): Promise<Server>{
+    return this.initDb().then(()=>
+           this.initRoutes(routers).then(()=> this))
+}
+
+  initDb(): mongoose.MongooseThenable {
+    (<any>mongoose).Promise = global.Promise
+    return mongoose.connect(environment.db.url, {
+      useMongoClient: true
+    })
+  }
+
+  initRoutes(routers: Router[]): Promise<any>{
+    return new Promise((resolve, reject)=>{
+      try{
+
+        this.app = restify.createServer({
+          name: 'salus-vitae-api',
+          version: '1.0.0'
+        })
+
+        this.app.use(restify.plugins.queryParser())
+        this.app.use(restify.plugins.bodyParser())
+        this.app.use(mergePatchBodyParser)
+
+        //routes
+        for (let router of routers) {
+          router.applyRoutes(this.app)
+        }
+
+        this.app.listen(environment.server.port, ()=>{
+           resolve(this.app)
+        })
+
+        this.app.on('restifyError', handleError)
+
+      }catch(error){
+        reject(error)
+      }
+    })
+  }
+}
