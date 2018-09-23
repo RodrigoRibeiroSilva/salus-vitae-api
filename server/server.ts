@@ -1,5 +1,6 @@
 import * as restify from 'restify'
 import * as mongoose from 'mongoose'
+import * as cors from 'cors'
 
 import { environment } from '../common/environment'
 import { Router } from '../router/router'
@@ -34,6 +35,7 @@ export class Server {
         this.app.use(restify.plugins.queryParser())
         this.app.use(restify.plugins.bodyParser())
         this.app.use(mergePatchBodyParser)
+        this.app.use(cors())
 
         //routes
         for (let router of routers) {

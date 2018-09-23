@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const restify = require("restify");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const environment_1 = require("../common/environment");
 const merge_patch_parser_1 = require("./merge-patch.parser");
 const error_handler_1 = require("./error.handler");
@@ -25,6 +26,7 @@ class Server {
                 this.app.use(restify.plugins.queryParser());
                 this.app.use(restify.plugins.bodyParser());
                 this.app.use(merge_patch_parser_1.mergePatchBodyParser);
+                this.app.use(cors());
                 //routes
                 for (let router of routers) {
                     router.applyRoutes(this.app);
