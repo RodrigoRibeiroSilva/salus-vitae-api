@@ -6,6 +6,7 @@ import { environment } from '../common/environment'
 import { Router } from '../router/router'
 import { mergePatchBodyParser } from './merge-patch.parser'
 import { handleError } from './error.handler'
+import { setAprazamento } from '../controller/consumo.controller'
 
 export class Server {
 
@@ -47,6 +48,20 @@ export class Server {
         })
 
         this.app.on('restifyError', handleError)
+
+        //Exemplo do aprazamento de 4 medicações agendadas a cada 10 segundos (Iniciando e abortando a rotina) 
+        var count = 0;
+        setAprazamento(function (timeout) {
+                 count++;
+                 console.log(`Eu como enfermeira digo: -Hora de tomar o remedinho -- ${count} vez(es)`)
+                 if (count == 4) {
+                   console.log('Todos os remédios foram todamos. Rotina Cancelada.')
+                   clearTimeout(timeout);
+                 }
+             },
+             (( 0*60 +  3)*60 + 30)*1000,
+             (( 0*60 + 0.10)*60 +  0)*1000,
+             (( 0*60 +  0)*60 + 30)*1000);
 
       }catch(error){
         reject(error)
