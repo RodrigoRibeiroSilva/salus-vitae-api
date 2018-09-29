@@ -19,7 +19,7 @@
       
  Fazendo uso de tipos genéricos, as demais rotas seguem exatamente a mesma estrutura e implementam os mesmos métodos do protocolo HTTP    sendo elas: /users  /pacientes /prontuarios /medicamentos  /prescricoes 
  
- **A API está atualmente hospedada no servidor do heroku e pode ser acessada pela URL: https://salus-vitae-ts-api.herokuapp.com/aprazamentos**
+ **A API está atualmente hospedada no servidor do heroku e pode ser acessada pela URL: https://salus-vitae-api.herokuapp.com/aprazamentos**
               
  
  # Equipe do Projeto
