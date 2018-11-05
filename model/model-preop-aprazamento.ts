@@ -9,7 +9,7 @@ export interface PreOperacaoAprazamento extends mongoose.Document {
     cdPrescricao: Number,
     dtPreOpAprazamento: Date,
     horarioInicial: Date,
-    intervalo: Date,
+    intervalo: Number,
     //Dados do medicamento Aprazado
     cdItem: Number,
     cdTpItem: Number,
@@ -50,7 +50,7 @@ const preOperacaoAprazamentoSchema = new mongoose.Schema({
       },
 
       intervalo: {
-        type: Date,
+        type: Number,
         required: true
       },
 

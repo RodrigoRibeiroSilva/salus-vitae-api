@@ -28,7 +28,7 @@ const preOperacaoAprazamentoSchema = new mongoose.Schema({
         required: true
     },
     intervalo: {
-        type: Date,
+        type: Number,
         required: true
     },
     //Dados do medicamento que foi aprazado
