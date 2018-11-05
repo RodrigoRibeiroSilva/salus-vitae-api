@@ -5,6 +5,9 @@ import { medicamentosRouter } from './router/medicamentos.router';
 import { aprazamentosRouter } from './router/aprazamentos.router';
 import { prescricoesRouter } from './router/prescricoes.router';
 import { prontuariosRouter } from './router/prontuarios.router';
+import { alertaConsumoRouter } from './router/alerta-consumo-router';
+import { opConsumoRodelagemRouter } from './router/op-consumo-rodelagem-router';
+import { preOperacaoAprazamentoRouter } from './router/preop-aprazamento-router';
 
 const server = new Server()
 server.initServer([usersRouter, 
@@ -12,7 +15,10 @@ server.initServer([usersRouter,
                   medicamentosRouter, 
                   aprazamentosRouter, 
                   prescricoesRouter, 
-                  prontuariosRouter])
+                  prontuariosRouter,
+                  alertaConsumoRouter,
+                  opConsumoRodelagemRouter,
+                  preOperacaoAprazamentoRouter])
   .then(server => {
         console.log('Server is listening on:', server.app.address())
 }).catch(error => {
