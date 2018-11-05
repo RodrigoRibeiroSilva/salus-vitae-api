@@ -2,6 +2,9 @@
   "name": "salus-viate-api",
   "version": "1.0.0",
   "description": "API da empresa Salus Vitae",
+  "engines": {
+    "node": "8.11.3"
+  },
   "main": "main.ts",
   "scripts": {
     "start": "node dist/main.js",
