@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const preOperacaoAprazamentoSchema = new mongoose.Schema({
     //Dados do Aprazamento
     status: {
-        type: Date,
+        type: String,
         required: false,
     },
     cdProntuario: {

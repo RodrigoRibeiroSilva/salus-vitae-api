@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose'
 
 export interface PreOperacaoAprazamento extends mongoose.Document {
     //Dados do Aprazamento
-    status: boolean,
+    status: string,
     cdProntuario: Number,
     cdAtendimento: Number,
     cdPrescricao: Number,
@@ -20,7 +20,7 @@ export interface PreOperacaoAprazamento extends mongoose.Document {
 const preOperacaoAprazamentoSchema = new mongoose.Schema({
   //Dados do Aprazamento
       status:{
-        type: Date,
+        type: String,
         required: false,
       },
 
