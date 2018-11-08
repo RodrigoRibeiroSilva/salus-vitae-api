@@ -7,10 +7,12 @@ const admin = require("firebase-admin");
 const environment_1 = require("../common/environment");
 const merge_patch_parser_1 = require("./merge-patch.parser");
 const error_handler_1 = require("./error.handler");
-const aprazamento_controller_1 = require("../controller/aprazamento-controller");
 class Server {
     initServer(routers = []) {
-        return this.initDb().then(() => this.initRoutes(routers).then(() => this.initFCM()).then(() => this));
+        return this.initDb()
+            .then(() => this.initRoutes(routers)
+            .then(() => this.initFCM())
+            .then(() => this));
     }
     initDb() {
         mongoose.Promise = global.Promise;
@@ -47,40 +49,47 @@ class Server {
                     resolve(this.app);
                 });
                 this.app.on('restifyError', error_handler_1.handleError);
-                //Exemplo do aprazamento de 4 medicações agendadas a cada 10 segundos (Iniciando e abortando a rotina) 
-                var count = 0;
-                // This registration token comes from the client FCM SDKs.
-                var topic = 'highScores';
-                // See documentation on defining a message payload.
-                var message = {
-                    data: {
-                        score: '850',
-                        time: '2:45'
-                    },
-                    topic: topic
-                };
-                aprazamento_controller_1.setAprazamento(function (timeout) {
-                    count++;
-                    // Send a message in the dry run mode.
-                    var dryRun = true;
-                    admin.messaging().send(message, dryRun)
-                        .then((response) => {
-                        // Response is a message ID string.
-                        console.log('Mensagem enviada com suceeso:', response);
-                    })
-                        .catch((error) => {
-                        console.log('Erro durante o envio da mensagem:', error);
-                    });
-                    if (count == 4) {
-                        console.log('Todos os remédios foram todamos. Rotina Cancelada.');
-                        clearTimeout(timeout);
-                    }
-                }, ((0 * 60 + 3) * 60 + 30) * 1000, ((0 * 60 + 0.10) * 60 + 0) * 1000, ((0 * 60 + 0) * 60 + 30) * 1000);
+                /*  //Exemplo do aprazamento de 4 medicações agendadas a cada 10 segundos (Iniciando e abortando a rotina)
+                 var count = 0;
+                 // This registration token comes from the client FCM SDKs.
+                 var topic = 'highScores';
+         
+                 // See documentation on defining a message payload.
+                 var message = {
+                 data: {
+                   score: '850',
+                   time: '2:45'
+                 },
+                 topic: topic
+                 };
+                 
+                 setAprazamento(function (timeout) {
+                          count++;
+                          // Send a message in the dry run mode.
+                         var dryRun = true;
+                         admin.messaging().send(message, dryRun)
+                         .then((response) => {
+                         // Response is a message ID string.
+                         console.log('Mensagem enviada com suceeso:', response);
+                         })
+                         .catch((error) => {
+                         console.log('Erro durante o envio da mensagem:', error);
+                         });
+                          if (count == 4) {
+                            console.log('Todos os remédios foram todamos. Rotina Cancelada.')
+                            clearTimeout(timeout);
+                          }
+                      },
+                      (( 0*60 +  3)*60 + 30)*1000,
+                      (( 0*60 + 0.10)*60 +  0)*1000,
+                      (( 0*60 +  0)*60 + 30)*1000); */
             }
             catch (error) {
                 reject(error);
             }
         });
+    }
+    startJob(key, value) {
     }
 }
 exports.Server = Server;

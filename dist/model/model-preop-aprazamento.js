@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
+const main_1 = require("../main");
 const preOperacaoAprazamentoSchema = new mongoose.Schema({
     //Dados do Aprazamento
     status: {
@@ -49,4 +50,15 @@ const preOperacaoAprazamentoSchema = new mongoose.Schema({
         required: true
     }
 });
+//Middleware para Arzamenar e disparar o timeOut do aprazamento.
+const saveMiddleware = function (next) {
+    const preOperacaoAprazamento = this;
+    if (preOperacaoAprazamento) {
+        main_1.dictAprazamentos.set(preOperacaoAprazamento.cdItem.toString(), "consegui");
+        next(console.log(main_1.dictAprazamentos.length));
+    }
+    else {
+    }
+};
+preOperacaoAprazamentoSchema.pre('save', saveMiddleware);
 exports.PreOperacaoAprazamento = mongoose.model('PreOperacaoAprazamento', preOperacaoAprazamentoSchema);

@@ -10,6 +10,7 @@ const prontuarios_router_1 = require("./router/prontuarios.router");
 const alerta_consumo_router_1 = require("./router/alerta-consumo-router");
 const op_consumo_rodelagem_router_1 = require("./router/op-consumo-rodelagem-router");
 const preop_aprazamento_router_1 = require("./router/preop-aprazamento-router");
+var Dict = require("collections/dict");
 const server = new server_1.Server();
 server.initServer([usuarios_router_1.usersRouter,
     pacientes_router_1.pacientesRouter,
@@ -27,3 +28,4 @@ server.initServer([usuarios_router_1.usersRouter,
     console.error(error);
     process.exit(1);
 });
+exports.dictAprazamentos = new Dict();

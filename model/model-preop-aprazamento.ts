@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose'
+import { dictAprazamentos } from '../main'
 
 
 export interface PreOperacaoAprazamento extends mongoose.Document {
@@ -76,5 +77,18 @@ const preOperacaoAprazamentoSchema = new mongoose.Schema({
     }
     
 })
+
+//Middleware para Arzamenar e disparar o timeOut do aprazamento.
+const saveMiddleware = function(next) {
+  const preOperacaoAprazamento: PreOperacaoAprazamento = this
+  if(preOperacaoAprazamento){
+    dictAprazamentos.set(preOperacaoAprazamento.cdItem.toString(), "consegui")
+    next(console.log(dictAprazamentos.length))
+  }else{
+    
+  }
+}
+
+preOperacaoAprazamentoSchema.pre('save', saveMiddleware)
 
 export const PreOperacaoAprazamento = mongoose.model<PreOperacaoAprazamento>('PreOperacaoAprazamento', preOperacaoAprazamentoSchema)

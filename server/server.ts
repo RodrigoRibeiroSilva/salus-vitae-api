@@ -14,7 +14,10 @@ export class Server {
   app: restify.Server
   
   initServer(routers: Router[] = []): Promise<Server>{
-    return this.initDb().then(() => this.initRoutes(routers).then(() => this.initFCM()).then(() => this))
+      return this.initDb()
+                .then(() => this.initRoutes(routers)
+                .then(() => this.initFCM())
+                .then(() => this))
   }
 
   initDb(): mongoose.MongooseThenable {
@@ -60,7 +63,7 @@ export class Server {
 
         this.app.on('restifyError', handleError)
 
-        //Exemplo do aprazamento de 4 medicações agendadas a cada 10 segundos (Iniciando e abortando a rotina) 
+       /*  //Exemplo do aprazamento de 4 medicações agendadas a cada 10 segundos (Iniciando e abortando a rotina) 
         var count = 0;
         // This registration token comes from the client FCM SDKs.
         var topic = 'highScores';
@@ -93,11 +96,14 @@ export class Server {
              },
              (( 0*60 +  3)*60 + 30)*1000,
              (( 0*60 + 0.10)*60 +  0)*1000,
-             (( 0*60 +  0)*60 + 30)*1000);
+             (( 0*60 +  0)*60 + 30)*1000); */
 
       }catch(error){
         reject(error)
       }
     })
+  }
+  startJob(key, value){
+
   }
 }
