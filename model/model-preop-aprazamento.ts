@@ -1,21 +1,23 @@
 import * as mongoose from 'mongoose'
-import { dictAprazamentos } from '../main'
+import { server } from '../main'
+import { NotFoundError } from 'restify-errors';
+import { setAprazamento } from '../controller/aprazamento-controller'
 
 
 export interface PreOperacaoAprazamento extends mongoose.Document {
     //Dados do Aprazamento
     status: string,
-    cdProntuario: Number,
-    cdAtendimento: Number,
-    cdPrescricao: Number,
+    cdProntuario: number,
+    cdAtendimento: number,
+    cdPrescricao: number,
     dtPreOpAprazamento: Date,
     horarioInicial: Date,
-    intervalo: Number,
+    intervalo: number,
     //Dados do medicamento Aprazado
-    cdItem: Number,
-    cdTpItem: Number,
-    ordemItem: Number,
-    quantidade: Number
+    cdItem: number,
+    cdTpItem: number,
+    ordemItem: number,
+    quantidade: number
   }
 
 const preOperacaoAprazamentoSchema = new mongoose.Schema({
@@ -78,17 +80,53 @@ const preOperacaoAprazamentoSchema = new mongoose.Schema({
     
 })
 
-//Middleware para Arzamenar e disparar o timeOut do aprazamento.
+//Middleware para Arzamenar e disparar a rotina do aprazamento.
 const saveMiddleware = function(next) {
   const preOperacaoAprazamento: PreOperacaoAprazamento = this
+
   if(preOperacaoAprazamento){
-    dictAprazamentos.set(preOperacaoAprazamento.cdItem.toString(), "consegui")
-    next(console.log(dictAprazamentos.length))
+    server.aprazamentos.push(preOperacaoAprazamento._id,  iniciaTimeOut(preOperacaoAprazamento))
+    console.log(server.aprazamentos.length)
+    next()
+
   }else{
-    
+    throw new NotFoundError('Erro ao inserir o aprazamento.')
   }
 }
 
+//Middleware para atualizar a rotina da notificação do aprazamento.
+const updateMiddleware = function(next) {
+  const preOperacaoAprazamento: PreOperacaoAprazamento = this
+  server.aprazamentos.forEach(function(key , value){
+    if(key === preOperacaoAprazamento._id){
+      clearTimeout(value)
+      this.value = iniciaTimeOut(preOperacaoAprazamento)
+    }
+  })
+  next()
+}
+
+const iniciaTimeOut = function (preOperacaoAprazamento: PreOperacaoAprazamento ){
+  //Dados da pre-operação
+  let horas = preOperacaoAprazamento.horarioInicial.getHours();
+  let minutos = preOperacaoAprazamento.horarioInicial.getMinutes();
+  let segundos = preOperacaoAprazamento.horarioInicial.getSeconds();
+  let intervalo = preOperacaoAprazamento.intervalo
+
+  //Dados da rotina de notificação
+  let horaInicialAprazamento = (( horas * 60 +  minutos )* 60 + segundos ) * 1000
+  let intervaloAprazamento = (( 0*60 + intervalo ) * 60 +  0) * 1000
+
+  let aprazamentoNotification = setAprazamento(function(timeout) {
+    //Lógica para o envio do push notification
+    console.log("Aprazei")
+    //console.log(server.aprazamentos.)
+ }
+  , horaInicialAprazamento, intervaloAprazamento, (( 0 * 60 +  0) * 60 + 0) * 1000); 
+}
+
 preOperacaoAprazamentoSchema.pre('save', saveMiddleware)
+preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware)
+preOperacaoAprazamentoSchema.pre('update', updateMiddleware)
 
 export const PreOperacaoAprazamento = mongoose.model<PreOperacaoAprazamento>('PreOperacaoAprazamento', preOperacaoAprazamentoSchema)

@@ -7,7 +7,11 @@ const admin = require("firebase-admin");
 const environment_1 = require("../common/environment");
 const merge_patch_parser_1 = require("./merge-patch.parser");
 const error_handler_1 = require("./error.handler");
+var Dict = require("collections/dict");
 class Server {
+    constructor() {
+        this.aprazamentos = [];
+    }
     initServer(routers = []) {
         return this.initDb()
             .then(() => this.initRoutes(routers)
@@ -62,8 +66,8 @@ class Server {
                  },
                  topic: topic
                  };
-                 
-                 setAprazamento(function (timeout) {
+                 */
+                /*  setAprazamento(function (timeout) {
                           count++;
                           // Send a message in the dry run mode.
                          var dryRun = true;
@@ -82,14 +86,13 @@ class Server {
                       },
                       (( 0*60 +  3)*60 + 30)*1000,
                       (( 0*60 + 0.10)*60 +  0)*1000,
-                      (( 0*60 +  0)*60 + 30)*1000); */
+                      (( 0*60 +  0)*60 + 30)*1000);
+          */
             }
             catch (error) {
                 reject(error);
             }
         });
-    }
-    startJob(key, value) {
     }
 }
 exports.Server = Server;

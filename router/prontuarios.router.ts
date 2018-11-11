@@ -15,13 +15,12 @@ class ProntuariosRouter extends GenericRouter<Prontuario> {
                   .populate('prescricoes')
                                                
     }
-
+    
     protected prepareAll(query: mongoose.DocumentQuery<Prontuario[],Prontuario>): mongoose.DocumentQuery<Prontuario[],Prontuario>{
       return query.populate('idPaciente')
                   .populate('prescricoes')
                                                
-    }
-    
+    }  
 
     applyRoutes(app: restify.Server){
         app.get('/prontuarios', this.findAll)  

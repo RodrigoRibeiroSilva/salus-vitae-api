@@ -9,9 +9,7 @@ import { alertaConsumoRouter } from './router/alerta-consumo-router';
 import { opConsumoRodelagemRouter } from './router/op-consumo-rodelagem-router';
 import { preOperacaoAprazamentoRouter } from './router/preop-aprazamento-router';
 
-var Dict = require("collections/dict");
-
-const server = new Server()
+export const server = new Server()
 
 server.initServer([usersRouter, 
                   pacientesRouter, 
@@ -29,5 +27,3 @@ server.initServer([usersRouter,
         console.error(error)
         process.exit(1)
 })
-
-export const dictAprazamentos = new Dict()

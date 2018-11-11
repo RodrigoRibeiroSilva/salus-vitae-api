@@ -7,12 +7,15 @@ import { environment } from '../common/environment'
 import { Router } from '../router/router'
 import { mergePatchBodyParser } from './merge-patch.parser'
 import { handleError } from './error.handler'
-import { setAprazamento } from '../controller/aprazamento-controller'
+
+
+var Dict = require("collections/dict");
 
 export class Server {
   
   app: restify.Server
-  
+  aprazamentos = []
+
   initServer(routers: Router[] = []): Promise<Server>{
       return this.initDb()
                 .then(() => this.initRoutes(routers)
@@ -76,8 +79,8 @@ export class Server {
         },
         topic: topic
         };
-        
-        setAprazamento(function (timeout) {
+        */
+       /*  setAprazamento(function (timeout) {
                  count++;
                  // Send a message in the dry run mode.
                 var dryRun = true;
@@ -96,14 +99,11 @@ export class Server {
              },
              (( 0*60 +  3)*60 + 30)*1000,
              (( 0*60 + 0.10)*60 +  0)*1000,
-             (( 0*60 +  0)*60 + 30)*1000); */
-
+             (( 0*60 +  0)*60 + 30)*1000); 
+ */
       }catch(error){
         reject(error)
       }
     })
-  }
-  startJob(key, value){
-
   }
 }
