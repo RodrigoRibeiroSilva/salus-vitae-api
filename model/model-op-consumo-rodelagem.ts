@@ -6,6 +6,12 @@ export interface OpConsumoRodelagem extends mongoose.Document {
     isConsumido: boolean,
     dtOperacao: Date,
     justificativa: string,
+    deviceUuid: string,  
+    deviceSerial : string,
+    deviceManufacturer: string,
+    deviceModel: string,
+    devicePlatform: string,
+    deviceVersion: string
   }
 
 const opConsumoRodelagemSchema = new mongoose.Schema({

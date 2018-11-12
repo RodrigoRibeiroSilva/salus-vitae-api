@@ -1,7 +1,9 @@
-import { GenericRouter } from './generic.router'
 import * as restify from 'restify'
 import * as mongoose from 'mongoose'
+
 import { OpConsumoRodelagem } from '../model/model-op-consumo-rodelagem';
+import { NotFoundError } from 'restify-errors'
+import { GenericRouter } from './generic.router'
 
 class OpConsumoRodelagemRouter extends GenericRouter<OpConsumoRodelagem> {
 
@@ -12,7 +14,7 @@ class OpConsumoRodelagemRouter extends GenericRouter<OpConsumoRodelagem> {
     applyRoutes(app: restify.Server){
       app.get('/opConsumoRodelagem', this.findAll)
       app.get('/opConsumoRodelagem/:id', [this.validateId, this.findById])
-      app.get('/opConsumoRodelagemDevice/:id', [this.validateId, this.findAllByDevice])
+      app.get('/opConsumoRodelagemDevice/:id', this.findAllByDevice)
       app.post('/opConsumoRodelagem', this.save)
       app.put('/opConsumoRodelagem/:id', [this.validateId, this.replace])
       app.patch('/opConsumoRodelagem/:id', [this.validateId, this.update])
@@ -20,14 +22,9 @@ class OpConsumoRodelagemRouter extends GenericRouter<OpConsumoRodelagem> {
     }
 
     findAllByDevice = (req, res, next) => {
-      this.model.find({deviceUuid: {$eq: '123'}})
+      this.model.find({deviceUuid: req.params.id})
           .then(this.renderAll(res,next))
           .catch(next)
-    }
-    
-      prepareAllWhere(query: mongoose.DocumentQuery<OpConsumoRodelagem[],OpConsumoRodelagem>, condiction : String): mongoose.DocumentQuery<OpConsumoRodelagem[],OpConsumoRodelagem>{
-      return query.where('this.deviceUuid').equals(condiction)
-                                               
     }
   }
   
