@@ -56,8 +56,11 @@ const preOperacaoAprazamentoSchema = new mongoose.Schema({
 const saveMiddleware = function (next) {
     const preOperacaoAprazamento = this;
     if (preOperacaoAprazamento) {
-        main_1.server.aprazamentos.push(preOperacaoAprazamento._id, iniciaTimeOut(preOperacaoAprazamento));
-        console.log(main_1.server.aprazamentos.length);
+        let aprazamento = iniciaTimeOut(preOperacaoAprazamento);
+        main_1.server.aprazamentos.set(preOperacaoAprazamento._id, aprazamento);
+        for (var [key, value] of main_1.server.aprazamentos) {
+            console.log('Chave: ' + key + " Valor " + value);
+        }
         next();
     }
     else {
@@ -70,7 +73,8 @@ const updateMiddleware = function (next) {
     main_1.server.aprazamentos.forEach(function (key, value) {
         if (key === preOperacaoAprazamento._id) {
             clearTimeout(value);
-            this.value = iniciaTimeOut(preOperacaoAprazamento);
+            main_1.server.aprazamentos[preOperacaoAprazamento._id] = iniciaTimeOut(preOperacaoAprazamento);
+            console.log(main_1.server.aprazamentos);
         }
     });
     next();
@@ -89,6 +93,7 @@ const iniciaTimeOut = function (preOperacaoAprazamento) {
         console.log("Aprazei");
         //console.log(server.aprazamentos.)
     }, horaInicialAprazamento, intervaloAprazamento, ((0 * 60 + 0) * 60 + 0) * 1000);
+    return aprazamentoNotification;
 };
 preOperacaoAprazamentoSchema.pre('save', saveMiddleware);
 preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware);

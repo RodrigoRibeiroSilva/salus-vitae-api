@@ -9,10 +9,8 @@ const merge_patch_parser_1 = require("./merge-patch.parser");
 const error_handler_1 = require("./error.handler");
 var Dict = require("collections/dict");
 class Server {
-    constructor() {
-        this.aprazamentos = [];
-    }
     initServer(routers = []) {
+        this.aprazamentos = new Map();
         return this.initDb()
             .then(() => this.initRoutes(routers)
             .then(() => this.initFCM())

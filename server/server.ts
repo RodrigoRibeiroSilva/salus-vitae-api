@@ -14,9 +14,10 @@ var Dict = require("collections/dict");
 export class Server {
   
   app: restify.Server
-  aprazamentos = []
+  aprazamentos
 
   initServer(routers: Router[] = []): Promise<Server>{
+    this.aprazamentos = new Map()
       return this.initDb()
                 .then(() => this.initRoutes(routers)
                 .then(() => this.initFCM())

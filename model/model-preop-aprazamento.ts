@@ -3,7 +3,6 @@ import { server } from '../main'
 import { NotFoundError } from 'restify-errors';
 import { setAprazamento } from '../controller/aprazamento-controller'
 
-
 export interface PreOperacaoAprazamento extends mongoose.Document {
     //Dados do Aprazamento
     status: string,
@@ -85,8 +84,11 @@ const saveMiddleware = function(next) {
   const preOperacaoAprazamento: PreOperacaoAprazamento = this
 
   if(preOperacaoAprazamento){
-    server.aprazamentos.push(preOperacaoAprazamento._id,  iniciaTimeOut(preOperacaoAprazamento))
-    console.log(server.aprazamentos.length)
+    let aprazamento = iniciaTimeOut(preOperacaoAprazamento)
+    server.aprazamentos.set(preOperacaoAprazamento._id, aprazamento )
+    for (var [key, value] of server.aprazamentos) {
+      console.log('Chave: ' + key + " Valor " + value);
+    }
     next()
 
   }else{
@@ -100,7 +102,8 @@ const updateMiddleware = function(next) {
   server.aprazamentos.forEach(function(key , value){
     if(key === preOperacaoAprazamento._id){
       clearTimeout(value)
-      this.value = iniciaTimeOut(preOperacaoAprazamento)
+      server.aprazamentos[preOperacaoAprazamento._id] = iniciaTimeOut(preOperacaoAprazamento)
+      console.log(server.aprazamentos)
     }
   })
   next()
@@ -123,6 +126,8 @@ const iniciaTimeOut = function (preOperacaoAprazamento: PreOperacaoAprazamento )
     //console.log(server.aprazamentos.)
  }
   , horaInicialAprazamento, intervaloAprazamento, (( 0 * 60 +  0) * 60 + 0) * 1000); 
+
+  return aprazamentoNotification
 }
 
 preOperacaoAprazamentoSchema.pre('save', saveMiddleware)
