@@ -1,8 +1,7 @@
 import * as restify from 'restify'
-import * as mongoose from 'mongoose'
+
 
 import { OpConsumoRodelagem } from '../model/model-op-consumo-rodelagem';
-import { NotFoundError } from 'restify-errors'
 import { GenericRouter } from './generic.router'
 
 class OpConsumoRodelagemRouter extends GenericRouter<OpConsumoRodelagem> {

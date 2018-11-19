@@ -7,7 +7,7 @@ const aprazamento_controller_1 = require("../controller/aprazamento-controller")
 const preOperacaoAprazamentoSchema = new mongoose.Schema({
     //Dados do Aprazamento
     status: {
-        type: String,
+        type: Boolean,
         required: false,
     },
     cdProntuario: {
@@ -90,8 +90,25 @@ const iniciaTimeOut = function (preOperacaoAprazamento) {
     let intervaloAprazamento = ((0 * 60 + intervalo) * 60 + 0) * 1000;
     let aprazamentoNotification = aprazamento_controller_1.setAprazamento(function (timeout) {
         //Lógica para o envio do push notification
+        // Send a message to the device corresponding to the provided
+        // registration token.
+        //var topic = 'highScores';
+        var message = {
+            token: 'cKyOj3neQFM:APA91bFbK_4nWOtNTBZo6Gj8inw57DqDe6e4KZbVpceQ3U0MqO39puhwi6jrSwxg0WQ8KpTFC1OMphHyP2qn7e9wyYyUPXGfywGMFGZoJV0x-5ocY8sIUWTc9z5HwZga0_b7sJpOzqWs',
+            notification: {
+                title: "Portugal vs. Denmark",
+                body: "great match!"
+            }
+        };
+        main_1.server.adm.messaging().send(message)
+            .then((response) => {
+            // Response is a message ID string.
+            console.log('Successfully sent message:', response);
+        })
+            .catch((error) => {
+            console.log('Error sending message:', error);
+        });
         console.log("Aprazei");
-        //console.log(server.aprazamentos.)
     }, horaInicialAprazamento, intervaloAprazamento, ((0 * 60 + 0) * 60 + 0) * 1000);
     return aprazamentoNotification;
 };
