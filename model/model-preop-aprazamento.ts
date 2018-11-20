@@ -102,7 +102,6 @@ const updateMiddleware = function(next) {
   server.aprazamentos.forEach(function(key , value){
     if(key === preOperacaoAprazamento._id){
       clearTimeout(value)
-      server.aprazamentos[preOperacaoAprazamento._id] = iniciaTimeOut(preOperacaoAprazamento)
       console.log(server.aprazamentos)
     }
   })
@@ -126,7 +125,6 @@ const iniciaTimeOut = function (preOperacaoAprazamento: PreOperacaoAprazamento )
     // registration token.
     //var topic = 'highScores';
     var message = {
-      
         token: 'cKyOj3neQFM:APA91bFbK_4nWOtNTBZo6Gj8inw57DqDe6e4KZbVpceQ3U0MqO39puhwi6jrSwxg0WQ8KpTFC1OMphHyP2qn7e9wyYyUPXGfywGMFGZoJV0x-5ocY8sIUWTc9z5HwZga0_b7sJpOzqWs',
         notification:{
           title:"Portugal vs. Denmark",
@@ -144,14 +142,15 @@ const iniciaTimeOut = function (preOperacaoAprazamento: PreOperacaoAprazamento )
     console.log('Error sending message:', error);
   });
     console.log("Aprazei")
- }
+  }
   , horaInicialAprazamento, intervaloAprazamento, (( 0 * 60 +  0) * 60 + 0) * 1000); 
 
   return aprazamentoNotification
 }
 
+
 preOperacaoAprazamentoSchema.pre('save', saveMiddleware)
-preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware)
-preOperacaoAprazamentoSchema.pre('update', updateMiddleware)
+//preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware)
+//preOperacaoAprazamentoSchema.pre('update', updateMiddleware)
 
 export const PreOperacaoAprazamento = mongoose.model<PreOperacaoAprazamento>('PreOperacaoAprazamento', preOperacaoAprazamentoSchema)

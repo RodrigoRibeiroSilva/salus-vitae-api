@@ -73,7 +73,6 @@ const updateMiddleware = function (next) {
     main_1.server.aprazamentos.forEach(function (key, value) {
         if (key === preOperacaoAprazamento._id) {
             clearTimeout(value);
-            main_1.server.aprazamentos[preOperacaoAprazamento._id] = iniciaTimeOut(preOperacaoAprazamento);
             console.log(main_1.server.aprazamentos);
         }
     });
@@ -113,6 +112,6 @@ const iniciaTimeOut = function (preOperacaoAprazamento) {
     return aprazamentoNotification;
 };
 preOperacaoAprazamentoSchema.pre('save', saveMiddleware);
-preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware);
-preOperacaoAprazamentoSchema.pre('update', updateMiddleware);
+//preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware)
+//preOperacaoAprazamentoSchema.pre('update', updateMiddleware)
 exports.PreOperacaoAprazamento = mongoose.model('PreOperacaoAprazamento', preOperacaoAprazamentoSchema);

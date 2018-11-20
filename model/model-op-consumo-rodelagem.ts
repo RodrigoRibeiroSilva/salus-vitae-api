@@ -1,5 +1,8 @@
 import * as mongoose from 'mongoose'
+
+import { NotFoundError } from 'restify-errors';
 import { PreOperacaoAprazamento } from './model-preop-aprazamento'
+
 
 export interface OpConsumoRodelagem extends mongoose.Document {
     cdPreOperacaoAprazamento: mongoose.Types.ObjectId | PreOperacaoAprazamento,
@@ -63,5 +66,20 @@ const opConsumoRodelagemSchema = new mongoose.Schema({
         required:  true,
       },
 })
+
+//Middleware para Arzamenar e disparar a rotina do aprazamento.
+const updatePreOpMiddleware = function(next) {
+  const opConsumoRodelagem: OpConsumoRodelagem = this
+  if(opConsumoRodelagem){
+    PreOperacaoAprazamento.findByIdAndUpdate(opConsumoRodelagem.cdPreOperacaoAprazamento, 
+      { $set: { status: true }}, { new: true }, function (err, document) {
+      if (err) throw new NotFoundError(err);
+      console.log(document)
+    });
+    next()
+  }
+}
+
+opConsumoRodelagemSchema.pre('save', updatePreOpMiddleware)
 
 export const OpConsumoRodelagem = mongoose.model<OpConsumoRodelagem>('OpConsumoRodelagem', opConsumoRodelagemSchema)
