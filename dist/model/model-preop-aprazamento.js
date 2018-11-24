@@ -36,7 +36,7 @@ const preOperacaoAprazamentoSchema = new mongoose.Schema({
     },
     //Dados do medicamento que foi aprazado
     cdItem: {
-        type: Number,
+        type: String,
         required: true
     },
     cdTpItem: {
@@ -49,6 +49,18 @@ const preOperacaoAprazamentoSchema = new mongoose.Schema({
     },
     quantidade: {
         type: Number,
+        required: true
+    },
+    nmUsuario: {
+        type: String,
+        required: true
+    },
+    nmPaciente: {
+        type: String,
+        required: true
+    },
+    nmMedicamento: {
+        type: String,
         required: true
     }
 });
@@ -90,24 +102,22 @@ const iniciaTimeOut = function (preOperacaoAprazamento) {
         // Send a message to the device corresponding to the provided
         // registration token.
         //var topic = 'highScores';
-        /*  var message = {
-             token: 'cKyOj3neQFM:APA91bFbK_4nWOtNTBZo6Gj8inw57DqDe6e4KZbVpceQ3U0MqO39puhwi6jrSwxg0WQ8KpTFC1OMphHyP2qn7e9wyYyUPXGfywGMFGZoJV0x-5ocY8sIUWTc9z5HwZga0_b7sJpOzqWs',
-             notification:{
-               title:"Portugal vs. Denmark",
-               body:"great match!"
-             }
-          
-         };
-     
-         server.adm.messaging().send(message)
-         .then((response) => {
-           // Response is a message ID string.
-         console.log('Successfully sent message:', response);
-         })
-       .catch((error) => {
-         console.log('Error sending message:', error);
-       });
-         console.log("Aprazei") */
+        var message = {
+            topic: "aprazamentos",
+            notification: {
+                title: "Atrazo da admistração",
+                body: `Já se passaram 30 minutos da hora de medicar: ${preOperacaoAprazamento.nmMedicamento} no paciente ${preOperacaoAprazamento.nmPaciente} `
+            }
+        };
+        main_1.server.adm.messaging().send(message)
+            .then((response) => {
+            // Response is a message ID string.
+            console.log('Successfully sent message:', response);
+        })
+            .catch((error) => {
+            console.log('Error sending message:', error);
+        });
+        console.log("Aprazei");
     }, horaInicialAprazamento, intervaloAprazamento, ((0 * 60 + 0) * 60 + 0) * 1000);
     return aprazamentoNotification;
 };

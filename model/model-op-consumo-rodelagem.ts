@@ -16,6 +16,8 @@ export interface OpConsumoRodelagem extends mongoose.Document {
     deviceModel: string,
     devicePlatform: string,
     deviceVersion: string
+
+    nmUsuario: string
   }
 
 const opConsumoRodelagemSchema = new mongoose.Schema({
@@ -66,6 +68,12 @@ const opConsumoRodelagemSchema = new mongoose.Schema({
         type: String,
         required:  true,
       },
+
+      nmUsuario: {
+        type: String,
+        required: true
+      }
+      
 })
 
 //Middleware para Arzamenar e disparar a rotina do aprazamento.

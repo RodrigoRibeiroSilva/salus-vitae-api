@@ -46,6 +46,10 @@ const opConsumoRodelagemSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    nmUsuario: {
+        type: String,
+        required: true
+    }
 });
 //Middleware para Arzamenar e disparar a rotina do aprazamento.
 const updatePreOpMiddleware = function (next) {
