@@ -50,6 +50,7 @@ const saveMiddleware = function(next) {
 
 //Middleware para Encriptar a senha em eventos de update
 const updateMiddleware = function(next){
+ 
   if(!this.getUpdate().password){
     next()
   }else{

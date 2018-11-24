@@ -57,10 +57,8 @@ const saveMiddleware = function (next) {
     const preOperacaoAprazamento = this;
     if (preOperacaoAprazamento) {
         let aprazamento = iniciaTimeOut(preOperacaoAprazamento);
-        main_1.server.aprazamentos.set(preOperacaoAprazamento._id, aprazamento);
-        for (var [key, value] of main_1.server.aprazamentos) {
-            console.log('Chave: ' + key + " Valor " + value);
-        }
+        main_1.server.aprazamentos.set(preOperacaoAprazamento._id.toString(), aprazamento);
+        console.log('Aprazamento agendado Chave: ' + preOperacaoAprazamento._id + " Valor " + aprazamento);
         next();
     }
     else {
@@ -69,13 +67,12 @@ const saveMiddleware = function (next) {
 };
 //Middleware para atualizar a rotina da notificação do aprazamento.
 const updateMiddleware = function (next) {
-    const preOperacaoAprazamento = this;
-    main_1.server.aprazamentos.forEach(function (key, value) {
-        if (key === preOperacaoAprazamento._id) {
-            clearTimeout(value);
-            console.log(main_1.server.aprazamentos);
-        }
-    });
+    const preOperacaoAprazamento = this._update;
+    console.log(preOperacaoAprazamento);
+    //Cancela a Rotina de das mensagens de aprazamento
+    clearTimeout(main_1.server.aprazamentos.get(preOperacaoAprazamento._id.toString()));
+    main_1.server.aprazamentos.delete(preOperacaoAprazamento._id.toString());
+    console.log(main_1.server.aprazamentos.entries());
     next();
 };
 const iniciaTimeOut = function (preOperacaoAprazamento) {
@@ -88,30 +85,32 @@ const iniciaTimeOut = function (preOperacaoAprazamento) {
     let horaInicialAprazamento = ((horas * 60 + minutos) * 60 + segundos) * 1000;
     let intervaloAprazamento = ((0 * 60 + intervalo) * 60 + 0) * 1000;
     let aprazamentoNotification = aprazamento_controller_1.setAprazamento(function (timeout) {
+        //console.log("Aprazei") 
         //Lógica para o envio do push notification
         // Send a message to the device corresponding to the provided
         // registration token.
         //var topic = 'highScores';
-        var message = {
-            token: 'cKyOj3neQFM:APA91bFbK_4nWOtNTBZo6Gj8inw57DqDe6e4KZbVpceQ3U0MqO39puhwi6jrSwxg0WQ8KpTFC1OMphHyP2qn7e9wyYyUPXGfywGMFGZoJV0x-5ocY8sIUWTc9z5HwZga0_b7sJpOzqWs',
-            notification: {
-                title: "Portugal vs. Denmark",
-                body: "great match!"
-            }
-        };
-        main_1.server.adm.messaging().send(message)
-            .then((response) => {
-            // Response is a message ID string.
-            console.log('Successfully sent message:', response);
-        })
-            .catch((error) => {
-            console.log('Error sending message:', error);
-        });
-        console.log("Aprazei");
+        /*  var message = {
+             token: 'cKyOj3neQFM:APA91bFbK_4nWOtNTBZo6Gj8inw57DqDe6e4KZbVpceQ3U0MqO39puhwi6jrSwxg0WQ8KpTFC1OMphHyP2qn7e9wyYyUPXGfywGMFGZoJV0x-5ocY8sIUWTc9z5HwZga0_b7sJpOzqWs',
+             notification:{
+               title:"Portugal vs. Denmark",
+               body:"great match!"
+             }
+          
+         };
+     
+         server.adm.messaging().send(message)
+         .then((response) => {
+           // Response is a message ID string.
+         console.log('Successfully sent message:', response);
+         })
+       .catch((error) => {
+         console.log('Error sending message:', error);
+       });
+         console.log("Aprazei") */
     }, horaInicialAprazamento, intervaloAprazamento, ((0 * 60 + 0) * 60 + 0) * 1000);
     return aprazamentoNotification;
 };
 preOperacaoAprazamentoSchema.pre('save', saveMiddleware);
-//preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware)
-//preOperacaoAprazamentoSchema.pre('update', updateMiddleware)
+preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware);
 exports.PreOperacaoAprazamento = mongoose.model('PreOperacaoAprazamento', preOperacaoAprazamentoSchema);

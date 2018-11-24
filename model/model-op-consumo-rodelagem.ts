@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose'
 
+import { server } from '../main'
 import { NotFoundError } from 'restify-errors';
 import { PreOperacaoAprazamento } from './model-preop-aprazamento'
 
@@ -70,13 +71,17 @@ const opConsumoRodelagemSchema = new mongoose.Schema({
 //Middleware para Arzamenar e disparar a rotina do aprazamento.
 const updatePreOpMiddleware = function(next) {
   const opConsumoRodelagem: OpConsumoRodelagem = this
-  if(opConsumoRodelagem){
+
+  if(mongoose.Types.ObjectId.isValid(opConsumoRodelagem._id)){
     PreOperacaoAprazamento.findByIdAndUpdate(opConsumoRodelagem.cdPreOperacaoAprazamento, 
-      { $set: { status: true }}, { new: true }, function (err, document) {
+      { $set: { status: false } , _id: opConsumoRodelagem.cdPreOperacaoAprazamento }, { new: true }, function (err, document) {
       if (err) throw new NotFoundError(err);
       console.log(document)
     });
     next()
+  
+  }else{
+    throw new NotFoundError('Código da pré-operação inválido');
   }
 }
 

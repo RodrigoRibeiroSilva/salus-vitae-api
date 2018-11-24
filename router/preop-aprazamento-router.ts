@@ -1,7 +1,7 @@
 import { GenericRouter } from './generic.router'
 import * as restify from 'restify'
 import { PreOperacaoAprazamento } from '../model/model-preop-aprazamento';
-import { app } from 'firebase-admin';
+
 
 
 class PreOperacaoAprazamentoRouter extends GenericRouter<PreOperacaoAprazamento> {
