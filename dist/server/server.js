@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const restify = require("restify");
 const mongoose = require("mongoose");
-const cors = require("cors");
 const admin = require("firebase-admin");
+const corsMiddleware = require("restify-cors-middleware");
 const environment_1 = require("../common/environment");
 const merge_patch_parser_1 = require("./merge-patch.parser");
 const error_handler_1 = require("./error.handler");
@@ -38,22 +38,12 @@ class Server {
                     name: 'salus-vitae-api',
                     version: '1.0.0'
                 });
+                const cors = corsMiddleware({ origins: ['*'] });
                 this.app.use(restify.plugins.queryParser());
                 this.app.use(restify.plugins.bodyParser());
                 this.app.use(merge_patch_parser_1.mergePatchBodyParser);
-                this.app.use(cors());
-                this.app.use(function (req, res, next) {
-                    res.header('Access-Control-Allow-Origin', '*');
-                    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-                    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-                    // allow preflight
-                    if (req.method === 'OPTIONS') {
-                        res.send(200);
-                    }
-                    else {
-                        next();
-                    }
-                });
+                this.app.pre(cors.preflight);
+                this.app.use(cors.actual);
                 //routes
                 for (let router of routers) {
                     router.applyRoutes(this.app);
@@ -62,41 +52,6 @@ class Server {
                     resolve(this.app);
                 });
                 this.app.on('restifyError', error_handler_1.handleError);
-                /*  //Exemplo do aprazamento de 4 medicações agendadas a cada 10 segundos (Iniciando e abortando a rotina)
-                 var count = 0;
-                 // This registration token comes from the client FCM SDKs.
-                 var topic = 'highScores';
-         
-                 // See documentation on defining a message payload.
-                 var message = {
-                 data: {
-                   score: '850',
-                   time: '2:45'
-                 },
-                 topic: topic
-                 };
-                 */
-                /*  setAprazamento(function (timeout) {
-                          count++;
-                          // Send a message in the dry run mode.
-                         var dryRun = true;
-                         admin.messaging().send(message, dryRun)
-                         .then((response) => {
-                         // Response is a message ID string.
-                         console.log('Mensagem enviada com suceeso:', response);
-                         })
-                         .catch((error) => {
-                         console.log('Erro durante o envio da mensagem:', error);
-                         });
-                          if (count == 4) {
-                            console.log('Todos os remédios foram todamos. Rotina Cancelada.')
-                            clearTimeout(timeout);
-                          }
-                      },
-                      (( 0*60 +  3)*60 + 30)*1000,
-                      (( 0*60 + 0.10)*60 +  0)*1000,
-                      (( 0*60 +  0)*60 + 30)*1000);
-          */
             }
             catch (error) {
                 reject(error);

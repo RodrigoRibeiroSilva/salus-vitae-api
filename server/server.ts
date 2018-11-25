@@ -1,12 +1,13 @@
 import * as restify from 'restify'
 import * as mongoose from 'mongoose'
-import * as cors from 'cors'
 import * as admin from 'firebase-admin';
+import * as corsMiddleware from 'restify-cors-middleware'
 
 import { environment } from '../common/environment'
 import { Router } from '../router/router'
 import { mergePatchBodyParser } from './merge-patch.parser'
 import { handleError } from './error.handler'
+
 
 
 export class Server {
@@ -50,23 +51,15 @@ export class Server {
           version: '1.0.0'
         })
 
+        const cors = corsMiddleware({origins: ['*']})
+
         this.app.use(restify.plugins.queryParser())
         this.app.use(restify.plugins.bodyParser())
         this.app.use(mergePatchBodyParser)
-        this.app.use(cors())
+        this.app.pre(cors.preflight)
+        this.app.use(cors.actual)
 
-        this.app.use(function (req, res, next) {
-          res.header('Access-Control-Allow-Origin', '*');
-          res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-          res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-          // allow preflight
-          if (req.method === 'OPTIONS') {
-          res.send(200);
-          } else {
-          next();
-          }
-        });
-
+      
         //routes
         for (let router of routers) {
           router.applyRoutes(this.app)
@@ -78,41 +71,6 @@ export class Server {
 
         this.app.on('restifyError', handleError)
 
-       /*  //Exemplo do aprazamento de 4 medicações agendadas a cada 10 segundos (Iniciando e abortando a rotina) 
-        var count = 0;
-        // This registration token comes from the client FCM SDKs.
-        var topic = 'highScores';
-
-        // See documentation on defining a message payload.
-        var message = {
-        data: {
-          score: '850',
-          time: '2:45'
-        },
-        topic: topic
-        };
-        */
-       /*  setAprazamento(function (timeout) {
-                 count++;
-                 // Send a message in the dry run mode.
-                var dryRun = true;
-                admin.messaging().send(message, dryRun)
-                .then((response) => {
-                // Response is a message ID string.
-                console.log('Mensagem enviada com suceeso:', response);
-                })
-                .catch((error) => {
-                console.log('Erro durante o envio da mensagem:', error);
-                });
-                 if (count == 4) {
-                   console.log('Todos os remédios foram todamos. Rotina Cancelada.')
-                   clearTimeout(timeout);
-                 }
-             },
-             (( 0*60 +  3)*60 + 30)*1000,
-             (( 0*60 + 0.10)*60 +  0)*1000,
-             (( 0*60 +  0)*60 + 30)*1000); 
- */
       }catch(error){
         reject(error)
       }

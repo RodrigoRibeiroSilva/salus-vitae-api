@@ -21,7 +21,8 @@
     "mongoose": "4.13.9",
     "npm": "^6.4.1",
     "restify": "6.3.4",
-    "restify-errors": "5.0.0"
+    "restify-errors": "5.0.0",
+    "restify-cors-middleware": "^1.1.1"
   },
   "devDependencies": {
     "@types/bcrypt": "1.0.0",
