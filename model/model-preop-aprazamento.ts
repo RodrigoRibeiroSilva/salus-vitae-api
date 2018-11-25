@@ -1,7 +1,8 @@
 import * as mongoose from 'mongoose'
 import { server } from '../main'
 import { NotFoundError } from 'restify-errors';
-import { setAprazamento } from '../controller/aprazamento-controller'
+import { Agendamento } from '../model/model-agendameto'
+import { AlertaConsumo } from '../model/model-alerta-consumo'
 
 export interface PreOperacaoAprazamento extends mongoose.Document {
     //Dados do Aprazamento
@@ -103,9 +104,61 @@ const preOperacaoAprazamentoSchema = new mongoose.Schema({
 const saveMiddleware = function(next) {
   const preOperacaoAprazamento: PreOperacaoAprazamento = this
   if(preOperacaoAprazamento){
-    let aprazamento = iniciaTimeOut(preOperacaoAprazamento)
-    server.aprazamentos.set(preOperacaoAprazamento._id.toString(), aprazamento )
-    console.log('Aprazamento agendado Chave: ' + preOperacaoAprazamento._id + " Valor " + aprazamento);
+    //Mensagem a ser Enviada
+    var message = {
+      topic : "aprazamentos",
+      notification:{
+        title: "Atrazo da admistração",
+        body: `Passaram-se 30 minutos da hora de administrar o medicamento: ${preOperacaoAprazamento.nmMedicamento}. No paciente: ${preOperacaoAprazamento.nmPaciente} ` 
+      }
+   
+    };
+
+    //Dados da pre-operação
+    let horas = preOperacaoAprazamento.horarioInicial.getHours();
+    let minutos = preOperacaoAprazamento.horarioInicial.getMinutes();
+    let segundos = preOperacaoAprazamento.horarioInicial.getSeconds();
+    let intervalo = preOperacaoAprazamento.intervalo
+
+    //Dados do objeto de Agendamento
+    let preopId = preOperacaoAprazamento._id
+    
+    let horaInicialAprazamento = (( horas * 60 +  minutos )* 60 + segundos ) * 1000
+    let intervaloAprazamento = (( 0*60 + intervalo ) * 60 +  0) * 1000
+
+    let agendamento : Agendamento = new Agendamento()
+    agendamento.preopId = preopId
+    agendamento.message = message
+    agendamento.setAprazamento(function(timeout) {
+
+      //Lógica para o envio do push notification
+      console.log(`Quantidade:  ${agendamento.quantidadeNotificacoes}`)
+      if(agendamento.quantidadeNotificacoes <=  0) {
+        clearTimeout(timeout)
+        console.log('Rotina Cancelada')
+      }else{
+        agendamento.enviarMensagem()
+        agendamento.parar()
+
+        //Deletar agendamento do mapa
+        console.log(server.aprazamentos.entries())
+        server.aprazamentos.delete(agendamento.preopId.toString())
+        console.log(server.aprazamentos.entries())
+
+        //Salvar no banco a data que a notificação foi enviada
+        const alertaConsumo : AlertaConsumo = new AlertaConsumo()
+        alertaConsumo.cdPreOperacaoAprazamento = agendamento.preopId
+        alertaConsumo.dtEnvio = new Date()
+
+        alertaConsumo.save()
+      }
+     
+    }
+    , horaInicialAprazamento, intervaloAprazamento, (( 0 * 60 +  0) * 60 + 0) * 1000); 
+  
+    //var aprazamento = iniciaTimeOut(preOperacaoAprazamento)
+    server.aprazamentos.set(agendamento.preopId.toString(), agendamento )
+    console.log('Aprazamento agendado Chave: ' + agendamento.preopId + " Valor " + agendamento);
     next()
 
   }else{
@@ -114,61 +167,25 @@ const saveMiddleware = function(next) {
 }
 
 //Middleware para atualizar a rotina da notificação do aprazamento.
-const updateMiddleware = function(next) {
+/* const updateMiddleware = function(next) {
   const preOperacaoAprazamento: PreOperacaoAprazamento = this._update
-  console.log(preOperacaoAprazamento)
+
   //Cancela a Rotina de das mensagens de aprazamento
-  clearTimeout(server.aprazamentos.get(preOperacaoAprazamento._id.toString()))
+  console.log(server.aprazamentos.entries())
+  console.log(preOperacaoAprazamento)
+  const agendamento : Agendamento = server.aprazamentos.get(preOperacaoAprazamento._id.toString())
+  console.log(agendamento)
+  agendamento.parar()
+
+  console.log(server.aprazamentos.entries())
   server.aprazamentos.delete(preOperacaoAprazamento._id.toString())
   console.log(server.aprazamentos.entries())
   next()
 }
-
-
-const iniciaTimeOut = function (preOperacaoAprazamento: PreOperacaoAprazamento ){
-  //Dados da pre-operação
-  let horas = preOperacaoAprazamento.horarioInicial.getHours();
-  let minutos = preOperacaoAprazamento.horarioInicial.getMinutes();
-  let segundos = preOperacaoAprazamento.horarioInicial.getSeconds();
-  let intervalo = preOperacaoAprazamento.intervalo
-
-  //Dados da rotina de notificação
-  let horaInicialAprazamento = (( horas * 60 +  minutos )* 60 + segundos ) * 1000
-  let intervaloAprazamento = (( 0*60 + intervalo ) * 60 +  0) * 1000
-
-  let aprazamentoNotification = setAprazamento(function(timeout) {
-    //console.log("Aprazei") 
-    //Lógica para o envio do push notification
-    // Send a message to the device corresponding to the provided
-    // registration token.
-    //var topic = 'highScores';
-   var message = {
-        topic : "aprazamentos",
-        notification:{
-          title: "Atrazo da admistração",
-          body: `Já se passaram 30 minutos da hora de medicar: ${preOperacaoAprazamento.nmMedicamento} no paciente ${preOperacaoAprazamento.nmPaciente} ` 
-        }
-     
-    };
-
-    server.adm.messaging().send(message)
-    .then((response) => {
-      // Response is a message ID string.
-    console.log('Successfully sent message:', response);
-    })
-  .catch((error) => {
-    console.log('Error sending message:', error);
-  });
-    console.log("Aprazei")
-  }
-  , horaInicialAprazamento, intervaloAprazamento, (( 0 * 60 +  0) * 60 + 0) * 1000); 
-
-  return aprazamentoNotification
-}
-
+ */
 
 preOperacaoAprazamentoSchema.pre('save', saveMiddleware)
-preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware)
+//preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware)
 
 
 export const PreOperacaoAprazamento = mongoose.model<PreOperacaoAprazamento>('PreOperacaoAprazamento', preOperacaoAprazamentoSchema)
