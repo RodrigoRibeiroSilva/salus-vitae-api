@@ -168,11 +168,15 @@ const saveMiddleware = function(next) {
   //Cancela a Rotina de das mensagens de aprazamento
   const agendamento : Agendamento = server.aprazamentos.get(preOperacaoAprazamento._id.toString())
   console.log(agendamento)
-  agendamento.parar()
+  if(agendamento){
+    agendamento.parar()
 
-  console.log(server.aprazamentos.entries())
-  server.aprazamentos.delete(preOperacaoAprazamento._id.toString())
-  console.log(`Após deletar existem:  ${server.aprazamentos.size} aprazamentos`)
+    console.log(server.aprazamentos.entries())
+    server.aprazamentos.delete(preOperacaoAprazamento._id.toString())
+    console.log(`Após deletar existem:  ${server.aprazamentos.size} aprazamentos`)
+    next()
+  }
+
   next()
 }
 

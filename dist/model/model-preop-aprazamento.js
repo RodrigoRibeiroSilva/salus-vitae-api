@@ -121,10 +121,13 @@ const updateMiddleware = function (next) {
     //Cancela a Rotina de das mensagens de aprazamento
     const agendamento = main_1.server.aprazamentos.get(preOperacaoAprazamento._id.toString());
     console.log(agendamento);
-    agendamento.parar();
-    console.log(main_1.server.aprazamentos.entries());
-    main_1.server.aprazamentos.delete(preOperacaoAprazamento._id.toString());
-    console.log(`Após deletar existem:  ${main_1.server.aprazamentos.size} aprazamentos`);
+    if (agendamento) {
+        agendamento.parar();
+        console.log(main_1.server.aprazamentos.entries());
+        main_1.server.aprazamentos.delete(preOperacaoAprazamento._id.toString());
+        console.log(`Após deletar existem:  ${main_1.server.aprazamentos.size} aprazamentos`);
+        next();
+    }
     next();
 };
 preOperacaoAprazamentoSchema.pre('save', saveMiddleware);
