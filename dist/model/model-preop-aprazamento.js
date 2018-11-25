@@ -99,18 +99,14 @@ const saveMiddleware = function (next) {
             else {
                 agendamento.enviarMensagem();
                 agendamento.parar();
-                //Deletar agendamento do mapa
                 console.log(main_1.server.aprazamentos.entries());
-                main_1.server.aprazamentos.delete(agendamento.preopId.toString());
-                console.log(main_1.server.aprazamentos.entries());
-                //Salvar no banco a data que a notificação foi enviada
+                console.log(`Atualmente existem:  ${main_1.server.aprazamentos.size} aprazamentos`);
                 const alertaConsumo = new model_alerta_consumo_1.AlertaConsumo();
                 alertaConsumo.cdPreOperacaoAprazamento = agendamento.preopId;
                 alertaConsumo.dtEnvio = new Date();
                 alertaConsumo.save();
             }
         }, horaInicialAprazamento, intervaloAprazamento, ((0 * 60 + 0) * 60 + 0) * 1000);
-        //var aprazamento = iniciaTimeOut(preOperacaoAprazamento)
         main_1.server.aprazamentos.set(agendamento.preopId.toString(), agendamento);
         console.log('Aprazamento agendado Chave: ' + agendamento.preopId + " Valor " + agendamento);
         next();
@@ -120,22 +116,17 @@ const saveMiddleware = function (next) {
     }
 };
 //Middleware para atualizar a rotina da notificação do aprazamento.
-/* const updateMiddleware = function(next) {
-  const preOperacaoAprazamento: PreOperacaoAprazamento = this._update
-
-  //Cancela a Rotina de das mensagens de aprazamento
-  console.log(server.aprazamentos.entries())
-  console.log(preOperacaoAprazamento)
-  const agendamento : Agendamento = server.aprazamentos.get(preOperacaoAprazamento._id.toString())
-  console.log(agendamento)
-  agendamento.parar()
-
-  console.log(server.aprazamentos.entries())
-  server.aprazamentos.delete(preOperacaoAprazamento._id.toString())
-  console.log(server.aprazamentos.entries())
-  next()
-}
- */
+const updateMiddleware = function (next) {
+    const preOperacaoAprazamento = this._update;
+    //Cancela a Rotina de das mensagens de aprazamento
+    const agendamento = main_1.server.aprazamentos.get(preOperacaoAprazamento._id.toString());
+    console.log(agendamento);
+    agendamento.parar();
+    console.log(main_1.server.aprazamentos.entries());
+    main_1.server.aprazamentos.delete(preOperacaoAprazamento._id.toString());
+    console.log(`Após deletar existem:  ${main_1.server.aprazamentos.size} aprazamentos`);
+    next();
+};
 preOperacaoAprazamentoSchema.pre('save', saveMiddleware);
-//preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware)
+preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware);
 exports.PreOperacaoAprazamento = mongoose.model('PreOperacaoAprazamento', preOperacaoAprazamentoSchema);

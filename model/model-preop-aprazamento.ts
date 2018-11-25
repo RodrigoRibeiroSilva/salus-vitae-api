@@ -139,13 +139,9 @@ const saveMiddleware = function(next) {
       }else{
         agendamento.enviarMensagem()
         agendamento.parar()
-
-        //Deletar agendamento do mapa
         console.log(server.aprazamentos.entries())
-        server.aprazamentos.delete(agendamento.preopId.toString())
-        console.log(server.aprazamentos.entries())
-
-        //Salvar no banco a data que a notificação foi enviada
+        console.log(`Atualmente existem:  ${server.aprazamentos.size} aprazamentos`)
+       
         const alertaConsumo : AlertaConsumo = new AlertaConsumo()
         alertaConsumo.cdPreOperacaoAprazamento = agendamento.preopId
         alertaConsumo.dtEnvio = new Date()
@@ -156,7 +152,6 @@ const saveMiddleware = function(next) {
     }
     , horaInicialAprazamento, intervaloAprazamento, (( 0 * 60 +  0) * 60 + 0) * 1000); 
   
-    //var aprazamento = iniciaTimeOut(preOperacaoAprazamento)
     server.aprazamentos.set(agendamento.preopId.toString(), agendamento )
     console.log('Aprazamento agendado Chave: ' + agendamento.preopId + " Valor " + agendamento);
     next()
@@ -167,25 +162,23 @@ const saveMiddleware = function(next) {
 }
 
 //Middleware para atualizar a rotina da notificação do aprazamento.
-/* const updateMiddleware = function(next) {
+  const updateMiddleware = function(next) {
   const preOperacaoAprazamento: PreOperacaoAprazamento = this._update
 
   //Cancela a Rotina de das mensagens de aprazamento
-  console.log(server.aprazamentos.entries())
-  console.log(preOperacaoAprazamento)
   const agendamento : Agendamento = server.aprazamentos.get(preOperacaoAprazamento._id.toString())
   console.log(agendamento)
   agendamento.parar()
 
   console.log(server.aprazamentos.entries())
   server.aprazamentos.delete(preOperacaoAprazamento._id.toString())
-  console.log(server.aprazamentos.entries())
+  console.log(`Após deletar existem:  ${server.aprazamentos.size} aprazamentos`)
   next()
 }
- */
+
 
 preOperacaoAprazamentoSchema.pre('save', saveMiddleware)
-//preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware)
+preOperacaoAprazamentoSchema.pre('findOneAndUpdate', updateMiddleware)
 
 
 export const PreOperacaoAprazamento = mongoose.model<PreOperacaoAprazamento>('PreOperacaoAprazamento', preOperacaoAprazamentoSchema)
