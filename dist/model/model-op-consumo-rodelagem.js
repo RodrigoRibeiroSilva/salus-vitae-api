@@ -24,31 +24,31 @@ const opConsumoRodelagemSchema = new mongoose.Schema({
     //Informações do aparelho e do profissional de saude que ministrou
     deviceUuid: {
         type: String,
-        required: true,
+        required: false,
     },
     deviceSerial: {
         type: String,
-        required: true,
+        required: false,
     },
     deviceManufacturer: {
         type: String,
-        required: true,
+        required: false,
     },
     deviceModel: {
         type: String,
-        required: true,
+        required: false,
     },
     devicePlatform: {
         type: String,
-        required: true,
+        required: false,
     },
     deviceVersion: {
         type: String,
-        required: true,
+        required: false,
     },
     nmUsuario: {
         type: String,
-        required: true
+        required: false
     }
 });
 //Middleware para Arzamenar e disparar a rotina do aprazamento.

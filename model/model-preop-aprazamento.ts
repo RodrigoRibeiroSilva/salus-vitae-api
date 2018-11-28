@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose'
 import { server } from '../main'
+
 import { NotFoundError } from 'restify-errors';
 import { Agendamento } from '../model/model-agendameto'
 import { AlertaConsumo } from '../model/model-alerta-consumo'
@@ -109,7 +110,7 @@ const saveMiddleware = function(next) {
       topic : "aprazamentos",
       notification:{
         title: "Atrazo da admistração",
-        body: `Passaram-se 30 minutos da hora de administrar o medicamento: ${preOperacaoAprazamento.nmMedicamento}. No paciente: ${preOperacaoAprazamento.nmPaciente} ` 
+        body: `Passaram-se 30 minutos da hora de administrar o Medicamento: ${preOperacaoAprazamento.nmMedicamento}. No Paciente: ${preOperacaoAprazamento.nmPaciente} ` 
       }
    
     };
@@ -124,7 +125,7 @@ const saveMiddleware = function(next) {
     let preopId = preOperacaoAprazamento._id
     
     let horaInicialAprazamento = (( horas * 60 +  minutos )* 60 + segundos ) * 1000
-    let intervaloAprazamento = (( 0*60 + intervalo ) * 60 +  0) * 1000
+    let intervaloAprazamento = (( intervalo * 60 + 30 ) * 60 +  0) * 1000
 
     let agendamento : Agendamento = new Agendamento()
     agendamento.preopId = preopId

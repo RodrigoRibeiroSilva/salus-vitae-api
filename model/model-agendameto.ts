@@ -5,7 +5,6 @@ export class Agendamento {
     quantidadeNotificacoes = 1
     preopId
     message
-    
 
     constructor (){   
     }

@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose'
 
-import { server } from '../main'
+
 import { NotFoundError } from 'restify-errors';
 import { PreOperacaoAprazamento } from './model-preop-aprazamento'
 
@@ -46,32 +46,32 @@ const opConsumoRodelagemSchema = new mongoose.Schema({
       //Informações do aparelho e do profissional de saude que ministrou
       deviceUuid:{
         type: String,
-        required:  true,
+        required:  false,
       },
       deviceSerial:{
         type: String,
-        required:  true,
+        required:  false,
       },
       deviceManufacturer: {
         type: String,
-        required:  true,
+        required:  false,
       },
       deviceModel: {
         type: String,
-        required:  true,
+        required:  false,
       },
       devicePlatform:{
         type: String,
-        required:  true,
+        required:  false,
       },
       deviceVersion:{
         type: String,
-        required:  true,
+        required:  false,
       },
 
       nmUsuario: {
         type: String,
-        required: true
+        required: false
       }
       
 })
