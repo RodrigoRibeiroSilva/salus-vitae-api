@@ -84,8 +84,8 @@ const saveMiddleware = function (next) {
         let intervalo = preOperacaoAprazamento.intervalo;
         //Dados do objeto de Agendamento
         let preopId = preOperacaoAprazamento._id;
-        let horaInicialAprazamento = ((horas * 60 + minutos) * 60 + segundos) * 1000;
-        let intervaloAprazamento = ((intervalo * 60 + 30) * 60 + 0) * 1000;
+        let horaInicialAprazamento = ((horas * 60 + minutos + 30) * 60 + segundos) * 1000;
+        let intervaloAprazamento = ((0 * 60 + 0) * 60 + 0) * 1000;
         let agendamento = new model_agendameto_1.Agendamento();
         agendamento.preopId = preopId;
         agendamento.message = message;
