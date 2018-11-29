@@ -151,7 +151,7 @@ const saveMiddleware = function(next) {
       }
      
     }
-    , horaInicialAprazamento, intervaloAprazamento, (( 0 * 60 +  0) * 60 + 0) * 1000); 
+    , horaInicialAprazamento, undefined, undefined); 
   
     server.aprazamentos.set(agendamento.preopId.toString(), agendamento )
     console.log('Aprazamento agendado Chave: ' + agendamento.preopId + " Valor " + agendamento);

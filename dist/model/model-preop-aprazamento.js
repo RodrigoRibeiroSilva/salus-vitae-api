@@ -106,7 +106,7 @@ const saveMiddleware = function (next) {
                 alertaConsumo.dtEnvio = new Date();
                 alertaConsumo.save();
             }
-        }, horaInicialAprazamento, intervaloAprazamento, ((0 * 60 + 0) * 60 + 0) * 1000);
+        }, horaInicialAprazamento, undefined, undefined);
         main_1.server.aprazamentos.set(agendamento.preopId.toString(), agendamento);
         console.log('Aprazamento agendado Chave: ' + agendamento.preopId + " Valor " + agendamento);
         next();
