@@ -110,7 +110,7 @@ const saveMiddleware = function(next) {
       topic : "aprazamentos",
       notification:{
         title: "Atraso da Administração",
-        body: `Passaram-se 30 minutos da hora de administrar o Medicamento: ${preOperacaoAprazamento.nmMedicamento}. No Paciente: ${preOperacaoAprazamento.nmPaciente} ` 
+        body: `Passaram-se 30 minutos da hora de administrar o Medicamento: ${preOperacaoAprazamento.nmMedicamento}, no Paciente: ${preOperacaoAprazamento.nmPaciente} ` 
       }
    
     };
