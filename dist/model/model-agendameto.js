@@ -50,6 +50,7 @@ class Agendamento {
             .then((response) => {
             // Response is a message ID string.
             console.log('Successfully sent message:', response);
+            console.log(this.message);
         })
             .catch((error) => {
             console.log('Error sending message:', error);
