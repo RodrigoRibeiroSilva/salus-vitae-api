@@ -73,7 +73,7 @@ const saveMiddleware = function (next) {
         var message = {
             topic: "aprazamentos",
             notification: {
-                title: "Atrazo da admistração",
+                title: "Atraso da admistração",
                 body: `Passaram-se 30 minutos da hora de administrar o Medicamento: ${preOperacaoAprazamento.nmMedicamento}. No Paciente: ${preOperacaoAprazamento.nmPaciente} `
             }
         };
@@ -85,7 +85,7 @@ const saveMiddleware = function (next) {
         //Dados do objeto de Agendamento
         let preopId = preOperacaoAprazamento._id;
         let horaInicialAprazamento = ((horas * 60 + minutos + 30) * 60 + segundos) * 1000;
-        let intervaloAprazamento = ((0 * 60 + 0) * 60 + 0) * 1000;
+        let intervaloAprazamento = ((1 * 60 + 0) * 60 + 30) * 1000;
         let agendamento = new model_agendameto_1.Agendamento();
         agendamento.preopId = preopId;
         agendamento.message = message;
@@ -106,7 +106,7 @@ const saveMiddleware = function (next) {
                 alertaConsumo.dtEnvio = new Date();
                 alertaConsumo.save();
             }
-        }, horaInicialAprazamento, undefined, undefined);
+        }, horaInicialAprazamento, intervaloAprazamento, undefined);
         main_1.server.aprazamentos.set(agendamento.preopId.toString(), agendamento);
         console.log('Aprazamento agendado Chave: ' + agendamento.preopId + " Valor " + agendamento);
         next();
