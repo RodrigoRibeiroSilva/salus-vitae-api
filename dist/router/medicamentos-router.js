@@ -7,12 +7,12 @@ class MedicamentosRouter extends generic_router_1.GenericRouter {
         super(model_medicamentos_1.Medicamento);
     }
     applyRoutes(app) {
-        app.get('/medicamentos', this.findAll);
-        app.get('/medicamentos/:id', [this.validateId, this.findById]);
-        app.post('/medicamentos', this.save);
-        app.put('/medicamentos/:id', [this.validateId, this.replace]);
-        app.patch('/medicamentos/:id', [this.validateId, this.update]);
-        app.del('/medicamentos/:id', [this.validateId, this.delete]);
+        app.get(`${this.basePath}`, this.findAll);
+        app.get(`${this.basePath}/:id`, [this.validateId, this.findById]);
+        app.post(`${this.basePath}`, this.save);
+        app.put(`${this.basePath}/:id`, [this.validateId, this.replace]);
+        app.patch(`${this.basePath}/:id`, [this.validateId, this.update]);
+        app.del(`${this.basePath}/:id`, [this.validateId, this.delete]);
     }
 }
 exports.medicamentosRouter = new MedicamentosRouter();

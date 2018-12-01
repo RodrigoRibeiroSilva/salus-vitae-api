@@ -28,13 +28,13 @@ class UsersRouter extends generic_router_1.GenericRouter {
         });
     }
     applyRoutes(app) {
-        app.get({ path: '/users', version: '2.0.0' }, [this.findByEmail, this.findAll]);
-        app.get({ path: '/users', version: '1.0.0' }, this.findAll);
-        app.get('/users/:id', [this.validateId, this.findById]);
-        app.post('/users', this.save);
-        app.put('/users/:id', [this.validateId, this.replace]);
-        app.patch('/users/:id', [this.validateId, this.update]);
-        app.del('/users/:id', [this.validateId, this.delete]);
+        app.get({ path: `${this.basePath}`, version: '2.0.0' }, [this.findByEmail, this.findAll]);
+        app.get({ path: `${this.basePath}`, version: '1.0.0' }, this.findAll);
+        app.get(`${this.basePath}/:id`, [this.validateId, this.findById]);
+        app.post(`${this.basePath}`, this.save);
+        app.put(`${this.basePath}/:id`, [this.validateId, this.replace]);
+        app.patch(`${this.basePath}/:id`, [this.validateId, this.update]);
+        app.del(`${this.basePath}/:id`, [this.validateId, this.delete]);
     }
 }
 exports.usersRouter = new UsersRouter();

@@ -3,8 +3,12 @@ import * as mongoose from 'mongoose'
 import { NotFoundError } from 'restify-errors'
 
 export abstract class GenericRouter<E extends mongoose.Document> extends Router{
+
+    basePath: string
+
     constructor(protected model: mongoose.Model<E>){
         super()
+        this.basePath = `/${model.collection.name}`
     }
 
     protected prepareOne(query: mongoose.DocumentQuery<E,E>): mongoose.DocumentQuery<E,E>{
@@ -13,6 +17,12 @@ export abstract class GenericRouter<E extends mongoose.Document> extends Router{
 
     protected prepareAll(query: mongoose.DocumentQuery<E[],E>): mongoose.DocumentQuery<E[],E>{
         return query
+    }
+    
+    envelope(document: any) : any {
+        let resource = Object.assign({_links:{}}, document.toJSON())
+        resource._links.self = `${this.basePath}/${resource._id}`
+        return resource
     }
 
     validateId = (req, res, next) => {

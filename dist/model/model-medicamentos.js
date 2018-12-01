@@ -12,11 +12,11 @@ const medicamentoSchema = new mongoose.Schema({
     },
     dataFabricacao: {
         type: Date,
-        required: true
+        required: false
     },
     dataValidade: {
         type: Date,
-        required: true
+        required: false
     }
 });
 exports.Medicamento = mongoose.model('Medicamento', medicamentoSchema);

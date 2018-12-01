@@ -61,12 +61,18 @@ class GenericRouter extends render_1.Router {
                 return next();
             }).catch(next);
         };
+        this.basePath = `/${model.collection.name}`;
     }
     prepareOne(query) {
         return query;
     }
     prepareAll(query) {
         return query;
+    }
+    envelope(document) {
+        let resource = Object.assign({ _links: {} }, document.toJSON());
+        resource._links.self = `${this.basePath}/${resource._id}`;
+        return resource;
     }
 }
 exports.GenericRouter = GenericRouter;
