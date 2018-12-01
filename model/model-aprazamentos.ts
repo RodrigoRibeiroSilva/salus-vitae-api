@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose'
-import { Paciente } from './model.pacientes';
-import { User } from './model.usuario';
-import { Medicamento } from './model.medicamentos';
+import { Paciente } from './model-pacientes';
+import { User } from './model-usuario';
+import { Medicamento } from './model-medicamentos';
 
 
 export interface Aprazamento extends mongoose.Document {

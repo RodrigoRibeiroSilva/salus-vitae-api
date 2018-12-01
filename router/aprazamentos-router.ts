@@ -1,7 +1,7 @@
-import { GenericRouter } from './generic.router'
+import { GenericRouter } from './generic-router'
 import * as restify from 'restify'
 import * as mongoose from 'mongoose'
-import { Aprazamento } from "../model/model.aprazamentos";
+import { Aprazamento } from "../model/model-aprazamentos";
 
 class AprazamentosRouter extends GenericRouter<Aprazamento> {
 

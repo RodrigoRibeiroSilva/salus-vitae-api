@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("./server/server");
-const usuarios_router_1 = require("./router/usuarios.router");
-const pacientes_router_1 = require("./router/pacientes.router");
-const medicamentos_router_1 = require("./router/medicamentos.router");
-const aprazamentos_router_1 = require("./router/aprazamentos.router");
-const prescricoes_router_1 = require("./router/prescricoes.router");
-const prontuarios_router_1 = require("./router/prontuarios.router");
+const usuarios_router_1 = require("./router/usuarios-router");
+const pacientes_router_1 = require("./router/pacientes-router");
+const medicamentos_router_1 = require("./router/medicamentos-router");
+const aprazamentos_router_1 = require("./router/aprazamentos-router");
+const prescricoes_router_1 = require("./router/prescricoes-router");
+const prontuarios_router_1 = require("./router/prontuarios-router");
 const alerta_consumo_router_1 = require("./router/alerta-consumo-router");
 const op_consumo_rodelagem_router_1 = require("./router/op-consumo-rodelagem-router");
 const preop_aprazamento_router_1 = require("./router/preop-aprazamento-router");

@@ -2,7 +2,7 @@ import * as restify from 'restify'
 
 
 import { OpConsumoRodelagem } from '../model/model-op-consumo-rodelagem';
-import { GenericRouter } from './generic.router'
+import { GenericRouter } from './generic-router'
 
 class OpConsumoRodelagemRouter extends GenericRouter<OpConsumoRodelagem> {
 

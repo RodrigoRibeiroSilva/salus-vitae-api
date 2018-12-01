@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const generic_router_1 = require("./generic.router");
-const model_prontuarios_1 = require("../model/model.prontuarios");
+const generic_router_1 = require("./generic-router");
+const model_prontuarios_1 = require("../model/model-prontuarios");
 class ProntuariosRouter extends generic_router_1.GenericRouter {
     constructor() {
         super(model_prontuarios_1.Prontuario);

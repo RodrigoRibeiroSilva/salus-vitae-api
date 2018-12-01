@@ -1,4 +1,4 @@
-import { GenericRouter } from './generic.router'
+import { GenericRouter } from './generic-router'
 import * as restify from 'restify'
 import * as mongoose from 'mongoose'
 import { Prescricao } from "../model/model.prescricoes";

@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose'
-import { Medicamento } from './model.medicamentos'
-import { User } from './model.usuario'
+import { Medicamento } from './model-medicamentos'
+import { User } from './model-usuario'
 
 
 export interface Prescricao extends mongoose.Document {

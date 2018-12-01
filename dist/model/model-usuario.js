@@ -56,6 +56,9 @@ const hashPassword = (obj, next) => {
         next();
     }).catch(next);
 };
+userSchema.statics.findByEmail = function (email) {
+    return this.findOne({ email }); // {email: email}
+};
 userSchema.pre('save', saveMiddleware);
 userSchema.pre('findOneAndUpdate', updateMiddleware);
 userSchema.pre('update', updateMiddleware);

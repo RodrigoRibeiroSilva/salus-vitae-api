@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const model_op_consumo_rodelagem_1 = require("../model/model-op-consumo-rodelagem");
-const generic_router_1 = require("./generic.router");
+const generic_router_1 = require("./generic-router");
 class OpConsumoRodelagemRouter extends generic_router_1.GenericRouter {
     constructor() {
         super(model_op_consumo_rodelagem_1.OpConsumoRodelagem);

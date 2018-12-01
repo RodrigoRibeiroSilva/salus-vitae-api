@@ -1,4 +1,4 @@
-import { Router } from './router'
+import { Router } from './render'
 import * as mongoose from 'mongoose'
 import { NotFoundError } from 'restify-errors'
 

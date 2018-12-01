@@ -1,4 +1,4 @@
-import { GenericRouter } from './generic.router'
+import { GenericRouter } from './generic-router'
 import * as restify from 'restify'
 import { AlertaConsumo } from "../model/model-alerta-consumo";
 

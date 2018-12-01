@@ -1,7 +1,7 @@
-import { GenericRouter } from './generic.router'
+import { GenericRouter } from './generic-router'
 import * as mongoose from 'mongoose'
 import * as restify from 'restify'
-import { Prontuario } from "../model/model.prontuarios";
+import { Prontuario } from "../model/model-prontuarios";
 
 
 class ProntuariosRouter extends GenericRouter<Prontuario> {

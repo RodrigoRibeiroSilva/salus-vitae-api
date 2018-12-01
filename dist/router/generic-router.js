@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const router_1 = require("./router");
+const render_1 = require("./render");
 const mongoose = require("mongoose");
 const restify_errors_1 = require("restify-errors");
-class GenericRouter extends router_1.Router {
+class GenericRouter extends render_1.Router {
     constructor(model) {
         super();
         this.model = model;

@@ -1,6 +1,6 @@
-import { GenericRouter } from './generic.router'
+import { GenericRouter } from './generic-router'
 import * as restify from 'restify'
-import { Medicamento } from "../model/model.medicamentos";
+import { Medicamento } from "../model/model-medicamentos";
 
 class MedicamentosRouter extends GenericRouter<Medicamento> {
 

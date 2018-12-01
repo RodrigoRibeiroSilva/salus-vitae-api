@@ -4,7 +4,7 @@ import * as admin from 'firebase-admin';
 import * as corsMiddleware from 'restify-cors-middleware'
 
 import { environment } from '../common/environment'
-import { Router } from '../router/router'
+import { Router } from '../router/render'
 import { mergePatchBodyParser } from './merge-patch.parser'
 import { handleError } from './error.handler'
 

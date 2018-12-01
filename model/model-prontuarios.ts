@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose'
-import { Paciente } from './model.pacientes'
+import { Paciente } from './model-pacientes'
 import { Prescricao } from './model.prescricoes'
 
 export interface Prontuario extends mongoose.Document {
