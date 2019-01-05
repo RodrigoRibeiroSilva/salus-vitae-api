@@ -7,7 +7,6 @@ class GenericRouter extends render_1.Router {
     constructor(model) {
         super();
         this.model = model;
-        this.pageSize = 10;
         this.validateId = (req, res, next) => {
             if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
                 next(new restify_errors_1.NotFoundError('Documento não encontrado'));
@@ -17,16 +16,8 @@ class GenericRouter extends render_1.Router {
             }
         };
         this.findAll = (req, res, next) => {
-            //Paginação da resposta
-            let page = parseInt(req.query._page || 1);
-            page = page > 0 ? page : 1;
-            const skip = (page - 1) * this.pageSize;
-            this.model.count({})
-                .exec()
-                .then(count => this.prepareAll(this.model.find())
-                .skip(skip)
-                .limit(this.pageSize)
-                .then(this.renderAll(res, next, { page, count, pageSize: this.pageSize, url: req.url })))
+            this.prepareAll(this.model.find())
+                .then(this.renderAll(res, next))
                 .catch(next);
         };
         this.findById = (req, res, next) => {
@@ -70,37 +61,12 @@ class GenericRouter extends render_1.Router {
                 return next();
             }).catch(next);
         };
-        this.basePath = `/${model.collection.name}`;
     }
     prepareOne(query) {
         return query;
     }
     prepareAll(query) {
         return query;
-    }
-    envelope(document) {
-        let resource = Object.assign({ _links: {} }, document.toJSON());
-        resource._links.self = `${this.basePath}/${resource._id}`;
-        return resource;
-    }
-    envelopeAll(documents, options) {
-        const resource = {
-            _links: {
-                self: `${options.url}`
-            },
-            items: documents
-        };
-        //Lógica para exibição dos metadados das páginas seguintes e anteriores
-        if (options.page && options.count && options.pageSize) {
-            if (options.page > 1) {
-                resource._links.previous = `${this.basePath}?_page=${options.page - 1}`;
-            }
-            const remaining = options.count - (options.page * options.pageSize);
-            if (remaining > 0) {
-                resource._links.next = `${this.basePath}?_page=${options.page + 1}`;
-            }
-        }
-        return resource;
     }
 }
 exports.GenericRouter = GenericRouter;

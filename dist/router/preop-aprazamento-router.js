@@ -7,12 +7,12 @@ class PreOperacaoAprazamentoRouter extends generic_router_1.GenericRouter {
         super(model_preop_aprazamento_1.PreOperacaoAprazamento);
     }
     applyRoutes(app) {
-        app.get('/preOpAprazamentos', this.findAll);
-        app.get('/preOpAprazamentos/:id', [this.validateId, this.findById]);
-        app.post('/preOpAprazamentos', this.save);
-        app.put('/preOpAprazamentos/:id', [this.validateId, this.replace]);
-        app.patch('/preOpAprazamentos/:id', [this.validateId, this.update]);
-        app.del('/preOpAprazamentos/:id', [this.validateId, this.delete]);
+        app.get('/preoperacaoaprazamentos', this.findAll);
+        app.get('/preoperacaoaprazamentos/:id', [this.validateId, this.findById]);
+        app.post('/preoperacaoaprazamentos', this.save);
+        app.put('/preoperacaoaprazamentos/:id', [this.validateId, this.replace]);
+        app.patch('/preoperacaoaprazamentos/:id', [this.validateId, this.update]);
+        app.del('/preoperacaoaprazamentos/:id', [this.validateId, this.delete]);
     }
 }
 exports.preOperacaoAprazamentoRouter = new PreOperacaoAprazamentoRouter();

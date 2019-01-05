@@ -7,12 +7,12 @@ class AlertaConsumoRouter extends generic_router_1.GenericRouter {
         super(model_alerta_consumo_1.AlertaConsumo);
     }
     applyRoutes(app) {
-        app.get('/notificacoes', this.findAll);
-        app.get('/notificacoes/:id', [this.validateId, this.findById]);
-        app.post('/notificacoes', this.save);
-        app.put('/notificacoes/:id', [this.validateId, this.replace]);
-        app.patch('/notificacoes/:id', [this.validateId, this.update]);
-        app.del('/notificacoes/:id', [this.validateId, this.delete]);
+        app.get('/alertaconsumos', this.findAll);
+        app.get('/alertaconsumos/:id', [this.validateId, this.findById]);
+        app.post('/alertaconsumos', this.save);
+        app.put('/alertaconsumos/:id', [this.validateId, this.replace]);
+        app.patch('/alertaconsumos/:id', [this.validateId, this.update]);
+        app.del('/alertaconsumos/:id', [this.validateId, this.delete]);
     }
 }
 exports.alertaConsumoRouter = new AlertaConsumoRouter();

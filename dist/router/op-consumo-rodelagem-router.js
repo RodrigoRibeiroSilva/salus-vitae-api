@@ -12,13 +12,13 @@ class OpConsumoRodelagemRouter extends generic_router_1.GenericRouter {
         };
     }
     applyRoutes(app) {
-        app.get('/opConsumoRodelagem', this.findAll);
-        app.get('/opConsumoRodelagem/:id', [this.validateId, this.findById]);
-        app.get('/opConsumoRodelagemDevice/:id', this.findAllByDevice);
-        app.post('/opConsumoRodelagem', this.save);
-        app.put('/opConsumoRodelagem/:id', [this.validateId, this.replace]);
-        app.patch('/opConsumoRodelagem/:id', [this.validateId, this.update]);
-        app.del('/opConsumoRodelagem/:id', [this.validateId, this.delete]);
+        app.get('/opconsumorodelagems', this.findAll);
+        app.get('/opconsumorodelagems/:id', [this.validateId, this.findById]);
+        app.get('/opconsumorodelagems/:id', this.findAllByDevice);
+        app.post('/opconsumorodelagems', this.save);
+        app.put('/opconsumorodelagems/:id', [this.validateId, this.replace]);
+        app.patch('/opconsumorodelagems/:id', [this.validateId, this.update]);
+        app.del('/opconsumorodelagems/:id', [this.validateId, this.delete]);
     }
 }
 exports.opConsumoRodelagemRouter = new OpConsumoRodelagemRouter();

@@ -14,7 +14,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "1.0.3",
     "collections": "^5.1.5",
     "cors": "^2.8.4",
     "firebase-admin": "^6.0.0",

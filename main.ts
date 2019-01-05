@@ -1,22 +1,12 @@
 import { Server } from './server/server'
-import { usersRouter } from './router/usuarios-router'
-import { pacientesRouter } from './router/pacientes-router';
-import { medicamentosRouter } from './router/medicamentos-router';
-import { aprazamentosRouter } from './router/aprazamentos-router';
-import { prescricoesRouter } from './router/prescricoes-router';
-import { prontuariosRouter } from './router/prontuarios-router';
+
 import { alertaConsumoRouter } from './router/alerta-consumo-router';
 import { opConsumoRodelagemRouter } from './router/op-consumo-rodelagem-router';
 import { preOperacaoAprazamentoRouter } from './router/preop-aprazamento-router';
 
 export const server = new Server()
 
-server.initServer([usersRouter, 
-                  pacientesRouter, 
-                  medicamentosRouter, 
-                  aprazamentosRouter, 
-                  prescricoesRouter, 
-                  prontuariosRouter,
+server.initServer([
                   alertaConsumoRouter,
                   opConsumoRodelagemRouter,
                   preOperacaoAprazamentoRouter])
