@@ -8,6 +8,9 @@ const environment_1 = require("../common/environment");
 const merge_patch_parser_1 = require("./merge-patch.parser");
 const error_handler_1 = require("./error.handler");
 class Server {
+    disconnectServer() {
+        return mongoose.disconnect().then(() => this.app.close());
+    }
     initServer(routers = []) {
         this.aprazamentos = new Map();
         return this.initDb()

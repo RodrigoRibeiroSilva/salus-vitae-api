@@ -16,12 +16,16 @@ export class Server {
   aprazamentos
   adm
 
+  disconnectServer(){
+    return mongoose.disconnect().then( () => this.app.close())
+  }
+
   initServer(routers: Router[] = []): Promise<Server>{
     this.aprazamentos = new Map()
       return this.initDb()
-                .then(() => this.initRoutes(routers)
-                .then(() => this.initFCM())
-                .then(() => this))
+                 .then(() => this.initRoutes(routers)
+                 .then(() => this.initFCM())
+                 .then(() => this))
   }
 
   initDb(): mongoose.MongooseThenable {
