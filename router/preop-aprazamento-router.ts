@@ -1,22 +1,17 @@
-import { GenericRouter } from './generic-router'
 import * as restify from 'restify'
-import { PreOperacaoAprazamento } from '../model/model-preop-aprazamento';
+
+import { preOperacaoAprazamentoController } from '../controller/preop-aprazamento-controller'
 
 
-
-class PreOperacaoAprazamentoRouter extends GenericRouter<PreOperacaoAprazamento> {
-
-    constructor(){
-      super(PreOperacaoAprazamento)
-    }
+class PreOperacaoAprazamentoRouter {
 
     applyRoutes(app: restify.Server){
-      app.get('/preoperacaoaprazamentos', this.findAll)
-      app.get('/preoperacaoaprazamentos/:id', [this.validateId, this.findById])
-      app.post('/preoperacaoaprazamentos', this.save)
-      app.put('/preoperacaoaprazamentos/:id', [this.validateId, this.replace])
-      app.patch('/preoperacaoaprazamentos/:id', [this.validateId, this.update])
-      app.del('/preoperacaoaprazamentos/:id', [this.validateId, this.delete])
+      app.get('/preoperacaoaprazamentos',       [preOperacaoAprazamentoController.findAll])
+      app.get('/preoperacaoaprazamentos/:id',   [preOperacaoAprazamentoController.validateId, preOperacaoAprazamentoController.findById])
+      app.post('/preoperacaoaprazamentos',      [preOperacaoAprazamentoController.save])
+      app.put('/preoperacaoaprazamentos/:id',   [preOperacaoAprazamentoController.validateId, preOperacaoAprazamentoController.replace])
+      app.patch('/preoperacaoaprazamentos/:id', [preOperacaoAprazamentoController.validateId, preOperacaoAprazamentoController.update])
+      app.del('/preoperacaoaprazamentos/:id',   [preOperacaoAprazamentoController.validateId, preOperacaoAprazamentoController.delete])
     }
     
   }

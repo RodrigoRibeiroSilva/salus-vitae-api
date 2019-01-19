@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const events_1 = require("events");
 const restify_errors_1 = require("restify-errors");
-class Router extends events_1.EventEmitter {
+class Render extends events_1.EventEmitter {
     render(response, next) {
         return (document) => {
             if (document) {
@@ -37,4 +37,4 @@ class Router extends events_1.EventEmitter {
         return documents;
     }
 }
-exports.Router = Router;
+exports.Render = Render;

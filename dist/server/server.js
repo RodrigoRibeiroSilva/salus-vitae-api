@@ -11,7 +11,7 @@ class Server {
     disconnectServer() {
         return mongoose.disconnect().then(() => this.app.close());
     }
-    initServer(routers = []) {
+    initServer(routers) {
         this.aprazamentos = new Map();
         return this.initDb()
             .then(() => this.initRoutes(routers)

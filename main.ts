@@ -6,10 +6,9 @@ import { preOperacaoAprazamentoRouter } from './router/preop-aprazamento-router'
 
 export const server = new Server()
 
-server.initServer([
-                  alertaConsumoRouter,
-                  opConsumoRodelagemRouter,
-                  preOperacaoAprazamentoRouter])
+server.initServer([alertaConsumoRouter,
+                   opConsumoRodelagemRouter,
+                   preOperacaoAprazamentoRouter])
   .then(server => {
         console.log('Server is listening on:', server.app.address())
 }).catch(error => {

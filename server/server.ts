@@ -4,7 +4,6 @@ import * as admin from 'firebase-admin';
 import * as corsMiddleware from 'restify-cors-middleware'
 
 import { environment } from '../common/environment'
-import { Router } from '../router/render'
 import { mergePatchBodyParser } from './merge-patch.parser'
 import { handleError } from './error.handler'
 
@@ -20,7 +19,7 @@ export class Server {
     return mongoose.disconnect().then( () => this.app.close())
   }
 
-  initServer(routers: Router[] = []): Promise<Server>{
+  initServer(routers: any[]): Promise<Server>{
     this.aprazamentos = new Map()
       return this.initDb()
                  .then(() => this.initRoutes(routers)
@@ -46,7 +45,7 @@ export class Server {
     });
   }
 
-  initRoutes(routers: Router[]): Promise<any>{
+  initRoutes(routers: any[]): Promise<any>{
     return new Promise((resolve, reject)=>{
       try{
 

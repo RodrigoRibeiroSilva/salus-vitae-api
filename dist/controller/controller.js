@@ -1,16 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const render_1 = require("./render");
 const mongoose = require("mongoose");
 const restify_errors_1 = require("restify-errors");
-class GenericRouter extends render_1.Router {
+const render_1 = require("../view/render");
+class Controller extends render_1.Render {
     constructor(model) {
         super();
         this.model = model;
         this.pageSize = 10;
         this.validateId = (req, res, next) => {
             if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-                next(new restify_errors_1.NotFoundError('Documento não encontrado'));
+                next(new restify_errors_1.NotFoundError('Document Not Found'));
             }
             else {
                 next();
@@ -54,7 +54,7 @@ class GenericRouter extends render_1.Router {
                     return this.model.findById(req.params.id);
                 }
                 else {
-                    throw new restify_errors_1.NotFoundError('Documento não encontrado');
+                    throw new restify_errors_1.NotFoundError('Document Not Found');
                 }
             }).then(this.render(res, next))
                 .catch(next);
@@ -65,7 +65,7 @@ class GenericRouter extends render_1.Router {
                     res.send(204);
                 }
                 else {
-                    throw new restify_errors_1.NotFoundError('Documento não encontrado');
+                    throw new restify_errors_1.NotFoundError('Document Not Found');
                 }
                 return next();
             }).catch(next);
@@ -103,4 +103,4 @@ class GenericRouter extends render_1.Router {
         return resource;
     }
 }
-exports.GenericRouter = GenericRouter;
+exports.Controller = Controller;

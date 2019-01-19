@@ -1,18 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const generic_router_1 = require("./generic-router");
-const model_alerta_consumo_1 = require("../model/model-alerta-consumo");
-class AlertaConsumoRouter extends generic_router_1.GenericRouter {
-    constructor() {
-        super(model_alerta_consumo_1.AlertaConsumo);
-    }
+const alerta_consumo_controller_1 = require("../controller/alerta-consumo-controller");
+class AlertaConsumoRouter {
     applyRoutes(app) {
-        app.get('/alertaconsumos', this.findAll);
-        app.get('/alertaconsumos/:id', [this.validateId, this.findById]);
-        app.post('/alertaconsumos', this.save);
-        app.put('/alertaconsumos/:id', [this.validateId, this.replace]);
-        app.patch('/alertaconsumos/:id', [this.validateId, this.update]);
-        app.del('/alertaconsumos/:id', [this.validateId, this.delete]);
+        app.get('/alertaconsumos', [alerta_consumo_controller_1.alertaConsumoController.findAll]);
+        app.get('/alertaconsumos/:id', [alerta_consumo_controller_1.alertaConsumoController.validateId, alerta_consumo_controller_1.alertaConsumoController.findById]);
+        app.post('/alertaconsumos', [alerta_consumo_controller_1.alertaConsumoController.save]);
+        app.put('/alertaconsumos/:id', [alerta_consumo_controller_1.alertaConsumoController.validateId, alerta_consumo_controller_1.alertaConsumoController.replace]);
+        app.patch('/alertaconsumos/:id', [alerta_consumo_controller_1.alertaConsumoController.validateId, alerta_consumo_controller_1.alertaConsumoController.update]);
+        app.del('/alertaconsumos/:id', [alerta_consumo_controller_1.alertaConsumoController.validateId, alerta_consumo_controller_1.alertaConsumoController.delete]);
     }
 }
 exports.alertaConsumoRouter = new AlertaConsumoRouter();

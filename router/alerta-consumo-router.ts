@@ -1,22 +1,18 @@
-import { GenericRouter } from './generic-router'
 import * as restify from 'restify'
-import { AlertaConsumo } from "../model/model-alerta-consumo";
 
-class AlertaConsumoRouter extends GenericRouter<AlertaConsumo> {
+import { alertaConsumoController } from '../controller/alerta-consumo-controller'
 
-    constructor(){
-      super(AlertaConsumo)
-    }
+
+class AlertaConsumoRouter {
 
     applyRoutes(app: restify.Server){
-      app.get('/alertaconsumos', this.findAll)
-      app.get('/alertaconsumos/:id', [this.validateId, this.findById])
-      app.post('/alertaconsumos', this.save)
-      app.put('/alertaconsumos/:id', [this.validateId, this.replace])
-      app.patch('/alertaconsumos/:id', [this.validateId, this.update])
-      app.del('/alertaconsumos/:id', [this.validateId, this.delete])
+      app.get('/alertaconsumos',       [alertaConsumoController.findAll])
+      app.get('/alertaconsumos/:id',   [alertaConsumoController.validateId, alertaConsumoController.findById])
+      app.post('/alertaconsumos',      [alertaConsumoController.save])
+      app.put('/alertaconsumos/:id',   [alertaConsumoController.validateId, alertaConsumoController.replace])
+      app.patch('/alertaconsumos/:id', [alertaConsumoController.validateId, alertaConsumoController.update])
+      app.del('/alertaconsumos/:id',   [alertaConsumoController.validateId, alertaConsumoController.delete])
     }
   }
   
   export const alertaConsumoRouter = new AlertaConsumoRouter()
-  
