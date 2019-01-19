@@ -10,16 +10,16 @@
 
 **Especificações e Atributos Técnicos**
 
-      get('/aprazamentos') => retorna a lista de todos os aprazamentos
-      get('/aprazamentos/:id') => retorna o aprazamento passado como parâmetro
-      post('/aprazamentos') => insere um novo aprazamento** 
-      put('/aprazamentos/:id') => substitui todo o documento passado como parâmetro
-      patch('/aprazamentos/:id') => atualiza parcialmente o documento passado como parâmetro
-      del('/aprazamentos/:id') => remove o documento passado como parâmetro
+      get('/opconsumorodelagems') => retorna a lista de todas as operações de consumo
+      get('/opconsumorodelagems/:id') => retorna a operação de consumo passada como parâmetro
+      post('/opconsumorodelagems') => insere uma nova operação de consumo** 
+      put('/opconsumorodelagems/:id') => substitui todo o documento passado como parâmetro
+      patch('/opconsumorodelagems/:id') => atualiza parcialmente o documento passado como parâmetro
+      del('/opconsumorodelagems/:id') => remove o documento passado como parâmetro
       
  Fazendo uso de tipos genéricos, as demais rotas seguem exatamente a mesma estrutura e implementam os mesmos métodos do protocolo HTTP    sendo elas: /users  /pacientes /prontuarios /medicamentos  /prescricoes 
  
- **A API está atualmente hospedada no servidor do heroku e pode ser acessada pela URL: https://salus-vitae-api.herokuapp.com/aprazamentos**
+ **A API está atualmente hospedada no servidor do heroku e pode ser acessada pela URL: https://salus-vitae-api.herokuapp.com/opconsumorodelagems**
               
  
  # Equipe do Projeto
@@ -28,5 +28,5 @@
   
   **Equipe de Desenvolvimento Back-end**
   
-  Rodolfo Estevam ,  Rodrigo Ribeiro 
+  Rodrigo Ribeiro 
   
