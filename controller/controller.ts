@@ -61,7 +61,7 @@ export abstract class Controller<E extends mongoose.Document> extends Render{
     replace = (req, res, next) => {
         const options = { runValidators: true, overwrite: true }
         this.model.update({_id: req.params.id}, req.body, options)
-            .exec().then(result => {
+            .exec().then((result) => {
           if(result.n){
             return this.model.findById(req.params.id)
           } else{

@@ -3,12 +3,14 @@ import { Server } from './server/server'
 import { alertaConsumoRouter } from './router/alerta-consumo-router';
 import { opConsumoRodelagemRouter } from './router/op-consumo-rodelagem-router';
 import { preOperacaoAprazamentoRouter } from './router/preop-aprazamento-router';
+import { usuarioRouter } from './router/usuario-router';
 
 export const server = new Server()
 
 server.initServer([alertaConsumoRouter,
                    opConsumoRodelagemRouter,
-                   preOperacaoAprazamentoRouter])
+                   preOperacaoAprazamentoRouter,
+                   usuarioRouter])
   .then(server => {
         console.log('Server is listening on:', server.app.address())
 }).catch(error => {

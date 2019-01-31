@@ -6,6 +6,7 @@ import * as corsMiddleware from 'restify-cors-middleware'
 import { environment } from '../common/environment'
 import { mergePatchBodyParser } from './merge-patch.parser'
 import { handleError } from './error.handler'
+import { tokenParser } from '../security/token.parser'
 
 
 
@@ -59,6 +60,7 @@ export class Server {
         this.app.use(restify.plugins.queryParser())
         this.app.use(restify.plugins.bodyParser())
         this.app.use(mergePatchBodyParser)
+        this.app.use(tokenParser)
         this.app.pre(cors.preflight)
         this.app.use(cors.actual)
 
@@ -68,7 +70,7 @@ export class Server {
           router.applyRoutes(this.app)
         }
 
-        this.app.listen(environment.server.port, ()=>{
+        this.app.listen(environment.server.port, () => {
            resolve(this.app)
         })
 
