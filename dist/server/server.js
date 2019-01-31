@@ -4,6 +4,7 @@ const restify = require("restify");
 const mongoose = require("mongoose");
 const admin = require("firebase-admin");
 const corsMiddleware = require("restify-cors-middleware");
+const fs = require("fs");
 const environment_1 = require("../common/environment");
 const merge_patch_parser_1 = require("./merge-patch.parser");
 const error_handler_1 = require("./error.handler");
@@ -40,7 +41,9 @@ class Server {
             try {
                 this.app = restify.createServer({
                     name: 'salus-vitae-api',
-                    version: '1.0.0'
+                    version: '1.0.0',
+                    certificate: fs.readFileSync('./security/keys/cert.pem'),
+                    key: fs.readFileSync('./security/keys/key.pem'),
                 });
                 const cors = corsMiddleware({ origins: ['*'] });
                 this.app.use(restify.plugins.queryParser());
