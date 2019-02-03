@@ -8,6 +8,8 @@ import { environment } from '../common/environment'
 import { mergePatchBodyParser } from './merge-patch.parser'
 import { handleError } from './error.handler'
 import { tokenParser } from '../security/token.parser'
+import { logger } from '../common/logger'
+import { throws } from 'assert';
 
 
 
@@ -51,17 +53,26 @@ export class Server {
     return new Promise((resolve, reject)=>{
       try{
 
-        this.app = restify.createServer({
+        const options: restify.ServerOptions = {
           name: 'salus-vitae-api',
           version: '1.0.0',
-          certificate: fs.readFileSync('./security/keys/cert.pem'),
-          key: fs.readFileSync('./security/keys/key.pem'),
-        })
+          log: logger
+        }
+
+        if(environment.security.enableHTTPS){
+          options.certificate = fs.readFileSync(environment.security.certificate)
+          options.key = fs.readFileSync(environment.security.key)
+        }
+
+        this.app = restify.createServer(options)
 
         const cors = corsMiddleware({origins: ['*']})
 
         this.app.use(restify.plugins.queryParser())
         this.app.use(restify.plugins.bodyParser())
+        this.app.pre(restify.plugins.requestLogger({
+          log: logger
+        }))
         this.app.use(mergePatchBodyParser)
         this.app.use(tokenParser)
         this.app.pre(cors.preflight)
@@ -78,7 +89,19 @@ export class Server {
         })
 
         this.app.on('restifyError', handleError)
+        //(req, res, router, error)
+       /* Exemplo de como implementar o auth log  
+      this.app.on('after', restify.plugins.auditLogger({
+          log: logger,
+          event: 'after',
+          body: true,
+          server: this.app
+        }))
 
+        this.app.on('audit', data => {
+
+        })
+ */
       }catch(error){
         reject(error)
       }

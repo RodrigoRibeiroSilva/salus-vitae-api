@@ -4,6 +4,8 @@ module.exports = {
     script : "./dist/main.js",
     instances: 0,
     exec_mode: "cluster",
+    watch: true,
+    merge_log: true,
     env: {
       PORT: 5000,
         DB_URL: "mongodb://dbasalus1:dbasalus1@ds111063.mlab.com:11063/salus-vitae",
