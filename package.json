@@ -31,13 +31,14 @@
     ]
   },
   "dependencies": {
+    "bcrypt": "1.0.3",
     "collections": "^5.1.5",
     "cors": "^2.8.4",
     "firebase-admin": "^6.0.0",
     "jsonwebtoken": "8.1.1",
     "mongoose": "4.13.9",
-    "bcrypt": "1.0.3",
     "npm": "^6.4.1",
+    "pm2": "^3.2.9",
     "restify": "6.3.4",
     "restify-cors-middleware": "^1.1.1",
     "restify-errors": "5.0.0"
