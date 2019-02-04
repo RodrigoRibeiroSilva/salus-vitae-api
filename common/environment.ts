@@ -9,7 +9,7 @@ export const environment = {
     key: process.env.CERT_KEY_FILE || './security/keys/key.pem'
    },
    log: {
-      level: process.env.LOF_LEVEL || 'debug',
+      level: process.env.LOG_LEVEL || 'debug',
       name: 'salus-vitae-api-logger'
    }
 }
