@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "API da empresa Salus Vitae",
   "engines": {
-    "node": "8.11.3"
+    "node": "8.11.3",
+    "npm": "5.7.1"
   },
   "main": "main.ts",
   "scripts": {
@@ -11,7 +12,7 @@
     "test": "ts-node jest.startup.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Rodrigo Ribeiro",
   "license": "ISC",
   "jest": {
     "globals": {
@@ -32,20 +33,18 @@
     ]
   },
   "dependencies": {
-    "bcrypt": "1.0.3",
     "collections": "^5.1.5",
     "cors": "^2.8.4",
     "firebase-admin": "^6.0.0",
     "jsonwebtoken": "8.1.1",
     "mongoose": "4.13.9",
-    "npm": "^6.4.1",
+    "npm": "5.7.1",
     "pm2": "^3.2.9",
     "restify": "6.3.4",
     "restify-cors-middleware": "^1.1.1",
     "restify-errors": "5.0.0"
   },
   "devDependencies": {
-    "@types/bcrypt": "1.0.0",
     "@types/jest": "22.1.2",
     "@types/jsonwebtoken": "7.2.5",
     "@types/mongoose": "4.7.32",
